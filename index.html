@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kardiologische Privatpraxis Tübingen | Dr. med. Roland Tegtmeyer</title>
+  <meta name="description" content="Kardiologische Privatpraxis von Dr. med. Roland Tegtmeyer in Tübingen. Persönliche Betreuung mit modernster Diagnostik. Herzuntersuchungen, EKG, Echokardiographie und mehr. Terminvereinbarung online möglich." />
+  <meta name="keywords" content="Kardiologie Tübingen, Kardiologe Tübingen, Herzarzt Tübingen, Dr. Tegtmeyer, Herzuntersuchung" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#00667b',
+              dark:    '#00505f',
+              light:   '#e6f3f6',
+              muted:   '#cce6ec',
+            }
+          },
+          fontFamily: {
+            sans:    ['"Nunito"', 'sans-serif'],
+            heading: ['"Nunito Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS (Google Fonts + animations) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Favicon (inline SVG heart) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
+</head>
+
+<body class="font-sans antialiased text-gray-800 bg-white">
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <header id="header" class="fixed top-0 w-full z-50 transition-all duration-300">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+
+        <!-- Logo -->
+        <a href="#startseite" class="flex items-center gap-3 group" aria-label="Zur Startseite">
+          <!-- Heart icon -->
+          <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/f5a73715-1592-45fc-a713-45a8a1be7b6d/image-911x189.png"
+               alt="Dr. med. Roland Tegtmeyer – Kardiologie Tübingen"
+               class="h-10 w-auto object-contain" />
+        </a>
+
+        <!-- Desktop Nav -->
+        <ul class="hidden lg:flex items-center gap-6 xl:gap-8 font-heading font-semibold text-sm text-gray-700">
+          <li><a href="#ueber-mich" class="nav-link hover:text-brand transition-colors pb-1">Über mich</a></li>
+          <li><a href="#leistungen" class="nav-link hover:text-brand transition-colors pb-1">Leistungen</a></li>
+          <li><a href="#praevention" class="nav-link hover:text-brand transition-colors pb-1">Prävention</a></li>
+          <li><a href="#kontakt" class="nav-link hover:text-brand transition-colors pb-1">Kontakt & Termin</a></li>
+          <li><a href="#anfahrt" class="nav-link hover:text-brand transition-colors pb-1">Anfahrt</a></li>
+          <li>
+            <a href="#kontakt" class="bg-brand text-white px-5 py-2.5 rounded-full hover:bg-brand-dark transition-colors shadow-sm font-semibold text-sm whitespace-nowrap">
+              Termin vereinbaren
+            </a>
+          </li>
+        </ul>
+
+        <!-- Mobile Hamburger -->
+        <button id="menu-btn" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu"
+                class="lg:hidden p-2 rounded-xl text-brand hover:bg-brand-light transition-colors">
+          <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden lg:hidden border-t border-brand-muted bg-white/95 backdrop-blur-sm rounded-b-2xl shadow-lg">
+        <ul class="flex flex-col py-3 font-heading font-semibold text-gray-700">
+          <li><a href="#ueber-mich" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Über mich</a></li>
+          <li><a href="#leistungen" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Leistungen</a></li>
+          <li><a href="#praevention" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Prävention</a></li>
+          <li><a href="#kontakt" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Kontakt & Termin</a></li>
+          <li><a href="#anfahrt" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Anfahrt</a></li>
+          <li class="px-4 pt-2 pb-4">
+            <a href="#kontakt" class="mobile-nav-link block bg-brand text-white text-center py-3 rounded-full hover:bg-brand-dark transition-colors font-semibold">
+              Termin vereinbaren
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main id="main-content">
+
+    <!-- ============================================================
+         1. HERO
+    ============================================================ -->
+    <section id="startseite" class="relative h-screen min-h-[600px] flex items-center overflow-hidden" aria-label="Willkommen">
+
+      <!-- Background image -->
+      <div class="absolute inset-0 hero-bg"></div>
+
+      <!-- Gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/55 to-gray-900/20"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="max-w-2xl">
+
+          <!-- Eyebrow -->
+          <span class="inline-block bg-brand text-white text-xs font-heading font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 shadow-md">
+            Kardiologische Privatpraxis Tübingen
+          </span>
+
+          <h1 class="font-heading font-extrabold text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-6">
+            Herzlich<br>Willkommen
+          </h1>
+
+          <p class="text-gray-200 text-lg sm:text-xl leading-relaxed mb-10 font-light max-w-xl">
+            Persönliche kardiologische Betreuung mit modernster Diagnostik — im Herzen von Tübingen.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#kontakt" class="bg-brand text-white font-heading font-bold px-8 py-4 rounded-full text-center hover:bg-brand-dark transition-all hover:shadow-xl hover:-translate-y-0.5 transform shadow-lg">
+              Termin vereinbaren
+            </a>
+            <a href="#leistungen" class="border-2 border-white/80 text-white font-heading font-bold px-8 py-4 rounded-full text-center hover:bg-white hover:text-brand transition-all backdrop-blur-sm">
+              Unsere Leistungen
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator absolute bottom-8 left-1/2 text-white/60" aria-hidden="true">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         INFO BAR
+    ============================================================ -->
+    <div class="bg-brand text-white py-5 shadow-md" aria-label="Kontaktinformationen">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-4">
+
+          <!-- Sprechzeiten -->
+          <div class="flex items-center justify-center sm:justify-start gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Sprechzeiten</div>
+              <div class="font-semibold text-sm">Di 17–20 Uhr &amp; nach Vereinbarung</div>
+            </div>
+          </div>
+
+          <!-- Telefon -->
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Telefon</div>
+              <a href="tel:+4970717 3564" class="font-semibold text-sm hover:underline">07071-73564</a>
+            </div>
+          </div>
+
+          <!-- Adresse -->
+          <div class="flex items-center justify-center sm:justify-end gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Adresse</div>
+              <div class="font-semibold text-sm">Poststraße 2-4, 72072 Tübingen</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         2. ÜBER MICH
+    ============================================================ -->
+    <section id="ueber-mich" class="py-20 lg:py-28 bg-white" aria-labelledby="ueber-mich-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section heading -->
+        <div class="text-center mb-16 animate-on-scroll">
+          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Ihr Kardiologe</span>
+          <h2 id="ueber-mich-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Über mich</h2>
+          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+        </div>
+
+        <!-- Two columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+          <!-- Photo -->
+          <div class="relative animate-on-scroll">
+            <div class="doctor-img rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] w-full max-w-sm mx-auto lg:max-w-none"></div>
+            <!-- Floating card -->
+            <div class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 bg-brand text-white rounded-2xl p-4 sm:p-5 shadow-2xl">
+              <div class="font-heading font-extrabold text-2xl sm:text-3xl leading-none">15+</div>
+              <div class="text-xs sm:text-sm text-white/90 font-semibold mt-1">Jahre Erfahrung</div>
+            </div>
+          </div>
+
+          <!-- Bio -->
+          <div class="animate-on-scroll">
+            <h3 class="font-heading font-extrabold text-2xl sm:text-3xl text-gray-800 mb-1">Dr. med. Roland Tegtmeyer</h3>
+            <p class="text-brand font-heading font-semibold mb-6 text-sm uppercase tracking-wide">Leitender Oberarzt · Universitätsklinikum Tübingen</p>
+
+            <p class="text-gray-600 leading-relaxed mb-4">
+              Gesundheit ist unser wertvollstes Gut — daher habe ich als erfahrener Kardiologe den Anspruch, Sie individuell und persönlich mit modernen Geräten und großer Erfahrung im Bereich der Herz- und Gefäßmedizin in angenehmer Atmosphäre zu betreuen.
+            </p>
+            <p class="text-gray-600 leading-relaxed mb-8">
+              Als Leitender Oberarzt der Kardiologie der Uniklinik Tübingen habe ich einen engen Kontakt zur Klinik. Eine etwaige weiterführende Diagnostik ist somit zeitnah zu ermöglichen. Neben sehr zeitnahen Online-Terminvergaben ohne große Wartezeiten ist für mich eine persönliche Betreuung auch außerhalb der Sprechzeiten selbstverständlich.
+            </p>
+
+            <!-- Credential pills -->
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Facharzt für Kardiologie</span>
+              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Universitätsklinikum Tübingen</span>
+              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Herz- &amp; Gefäßmedizin</span>
+            </div>
+
+            <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-6 py-3.5 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+              Termin vereinbaren
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. LEISTUNGEN
+    ============================================================ -->
+    <section id="leistungen" class="py-20 lg:py-28 bg-gray-50" aria-labelledby="leistungen-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section heading -->
+        <div class="text-center mb-14 animate-on-scroll">
+          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Kardiologische Versorgung</span>
+          <h2 id="leistungen-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Unsere Leistungen</h2>
+          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+          <p class="mt-5 text-gray-600 max-w-xl mx-auto">Umfassende kardiologische Diagnostik und Behandlung mit modernsten Geräten und persönlicher Betreuung.</p>
+        </div>
+
+        <!-- Service Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-on-scroll stagger-children">
+
+          <!-- 1. Ruhe-EKG & Belastungs-EKG -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/8c72c803-1f78-4dc7-88c9-3d329dc350d5/l303,t53,w1394,h1394/image-768x768.jpg"
+                   alt="Ruhe-EKG und Belastungs-EKG"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Ruhe-EKG &amp; Belastungs-EKG</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Das Ruhe-EKG dient der Diagnose von (abgelaufenen) Herzinfarkten und Herzrhythmusstörungen. Das Belastungs-EKG ermöglicht die Früherkennung der koronaren Herzerkrankung.</p>
+            </div>
+          </div>
+
+          <!-- 2. Echokardiographie -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/b66a6950-0178-49b4-90e6-60edc3b28d4e/l0,t0,w547,h552/image.jpg"
+                   alt="Transthorakale Farbdoppler-Echokardiographie"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Transthorakale Farbdoppler-Echokardiographie</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Die wichtigste Herzuntersuchung des Kardiologen: Herzinsuffizienz und Klappenfehler werden durch Darstellung der Herzfunktion und des Blutflusses erkannt. Stenosen und Insuffizienzen werden zuverlässig detektiert.</p>
+            </div>
+          </div>
+
+          <!-- 3. Langzeit-EKG & Langzeit-Blutdruck -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/ad5b7e76-8a59-49cf-afce-162de85f161e/l220,t0,w1035,h1035/image-768x768.jpg"
+                   alt="Langzeit-EKG und Langzeit-Blutdruckmessung"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Langzeit-EKG &amp; Langzeit-Blutdruck</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Das Langzeit-EKG erfasst Herzrhythmusstörungen über bis zu 48 Stunden. Die Langzeit-Blutdruckmessung verbessert die Hochdruckdiagnostik durch regelmäßige Messungen über 24 Stunden.</p>
+            </div>
+          </div>
+
+          <!-- 4. Herz-Checkup & Prävention -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/b10c1ede-d90d-45e9-9ae0-960aef409a73/l0,t17,w1024,h1024/image-768x768.png"
+                   alt="Herz-Checkup und Prävention"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Herz-Checkup &amp; Prävention</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Primärprävention: Erkrankungen behandeln, bevor sie symptomatisch werden. Individuelle Risikoanalysen, Labordiagnostik, Belastungsuntersuchung und Ultraschall zur Einschätzung Ihres kardiovaskulären Risikos.</p>
+            </div>
+          </div>
+
+          <!-- 5. Labordiagnostik -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/6e779b2d-92a1-4155-9542-67a4f43c5d2f/l62,t0,w1500,h1500/image-768x768.jpg"
+                   alt="Labordiagnostik"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Labordiagnostik</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Cholesterin (LDL), NT-ProBNP sowie Notfallparameter inkl. Troponinmessung. Umfassendes Risikofaktormanagement zur Beurteilung und Behandlung kardiovaskulärer Risiken.</p>
+            </div>
+          </div>
+
+          <!-- 6. Doppler der Halsgefäße -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/9e59e738-d349-4ee9-bef1-82c4ec2fe142/l42,t0,w407,h407/image.jpg"
+                   alt="Doppler der Halsgefäße"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Doppler der Halsgefäße</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Beurteilung des Blutflusses in den Halsarterien mittels Doppler- bzw. Duplexsonographie. Erkennung von Verengungen (Stenosen) und Ablagerungen (Plaques) zur Schlaganfallprävention.</p>
+            </div>
+          </div>
+
+          <!-- 7. ABI-Messung -->
+          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default sm:col-span-2 lg:col-span-1">
+            <div class="overflow-hidden h-48">
+              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/cd55470a-0a8c-4945-9acc-12f9c8481bba/l1,t200,w1200,h1200/image-768x768.jpg"
+                   alt="ABI-Messung – Knöchel-Arm-Index"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                   loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">ABI-Messung</h3>
+              <p class="text-gray-500 text-sm leading-relaxed">Knöchel-Arm-Index zur Früherkennung von Gefäßverengungen (pAVK). Das Verhältnis der Blutdruckwerte zwischen den Extremitäten gibt Aufschluss über die arterielle Durchblutung.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-12 animate-on-scroll">
+          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-8 py-4 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+            Jetzt Termin vereinbaren
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. PRÄVENTION
+    ============================================================ -->
+    <section id="praevention" class="py-20 lg:py-28 bg-white" aria-labelledby="praevention-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section heading -->
+        <div class="text-center mb-14 animate-on-scroll">
+          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Früherkennung &amp; Vorsorge</span>
+          <h2 id="praevention-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Prävention</h2>
+          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+          <p class="mt-5 text-gray-600 max-w-2xl mx-auto text-lg">Kennen Sie Ihr individuelles kardiovaskuläres Risiko?</p>
+        </div>
+
+        <!-- Image + Risikofaktoren -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-14 animate-on-scroll">
+
+          <!-- Image -->
+          <div class="rounded-2xl overflow-hidden shadow-xl">
+            <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/a95fe38f-74c7-4bf2-96ca-7524876d3839/l0,t0,w408,h487/image.png"
+                 alt="Prävention – Kardiovaskuläres Risiko"
+                 class="w-full h-full object-cover" loading="lazy" />
+          </div>
+
+          <!-- Text & Risikofaktoren -->
+          <div>
+            <p class="text-gray-600 leading-relaxed mb-6">
+              Herz-Kreislauf-Erkrankungen sind für rund <strong class="text-gray-800">34 % aller Todesfälle</strong> in Deutschland verantwortlich. Viele dieser Erkrankungen sind jedoch durch gezielte Früherkennung und konsequente Prävention vermeidbar oder zumindest verzögerbar.
+            </p>
+            <p class="text-gray-600 leading-relaxed mb-8">
+              Mithilfe des <strong class="text-gray-800">SCORE-Systems</strong> lässt sich das individuelle 10-Jahres-Risiko für ein tödliches kardiovaskuläres Ereignis berechnen — unter Berücksichtigung von Blutdruck, Cholesterin, Alter und Raucherstatus.
+            </p>
+
+            <!-- Risikofaktoren -->
+            <div class="space-y-4">
+
+              <!-- Lipidstoffwechsel -->
+              <div class="bg-brand-light rounded-2xl p-5">
+                <h3 class="font-heading font-bold text-brand text-base mb-3">Lipidstoffwechsel</h3>
+                <div class="space-y-2 text-sm text-gray-700">
+                  <div class="flex items-start gap-2">
+                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span><strong>LDL-Cholesterin</strong> — das „schlechte" Cholesterin: erhöhte Werte fördern die Arterienverkalkung</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span><strong>HDL-Cholesterin</strong> — das „gute" Cholesterin: schützt die Gefäße und transportiert Cholesterin zur Leber</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span><strong>Triglyzeride</strong> — erhöhte Werte steigern das kardiovaskuläre Risiko zusätzlich</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Glukosestoffwechsel -->
+              <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                <h3 class="font-heading font-bold text-gray-800 text-base mb-3">Glukosestoffwechsel</h3>
+                <div class="space-y-2 text-sm text-gray-700">
+                  <div class="flex items-start gap-2">
+                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span><strong>Blutzucker</strong> — Zielwert nüchtern unter 100 mg/dl; gesunde Ernährung und Bewegung sind entscheidend</span>
+                  </div>
+                  <div class="flex items-start gap-2">
+                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
+                    <span><strong>HbA1c</strong> — spiegelt den Blutzucker der vergangenen 8–12 Wochen wider und ist ein wichtiger Langzeitmarker</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Schritte-Prozess -->
+        <div class="animate-on-scroll">
+          <h3 class="font-heading font-bold text-gray-800 text-xl text-center mb-8">Unser 4-Schritte-Prozess zur Risikoabschätzung</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
+              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+              <h4 class="font-heading font-bold text-gray-800 mb-2">Strukturierte Anamnese</h4>
+              <p class="text-gray-500 text-sm leading-relaxed">Ausführliche Erfassung Ihrer Krankengeschichte, Risikofaktoren und familiären Vorbelastung.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
+              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+              <h4 class="font-heading font-bold text-gray-800 mb-2">Labordiagnostik</h4>
+              <p class="text-gray-500 text-sm leading-relaxed">Umfassende Blutanalyse: Cholesterin, Blutzucker, HbA1c, Entzündungsmarker und weitere Herzwerte.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
+              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+              <h4 class="font-heading font-bold text-gray-800 mb-2">Gesamtrisikoabschätzung</h4>
+              <p class="text-gray-500 text-sm leading-relaxed">Berechnung Ihres individuellen kardiovaskulären Gesamtrisikos mittels des validierten SCORE-Systems.</p>
+            </div>
+
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
+              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">4</div>
+              <h4 class="font-heading font-bold text-gray-800 mb-2">Interventionsstrategie</h4>
+              <p class="text-gray-500 text-sm leading-relaxed">Gemeinsame Erarbeitung eines individuellen Präventionsplans: Lebensstil, Ernährung, Medikation.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-12 animate-on-scroll">
+          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-8 py-4 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+            Herz-Checkup vereinbaren
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. KONTAKT & TERMIN
+    ============================================================ -->
+    <section id="kontakt" class="py-20 lg:py-28 bg-gray-50" aria-labelledby="kontakt-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section heading -->
+        <div class="text-center mb-14 animate-on-scroll">
+          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Schreiben Sie uns</span>
+          <h2 id="kontakt-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Kontakt &amp; Termin</h2>
+          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+          <p class="mt-5 text-gray-600 max-w-xl mx-auto">Kontaktieren Sie uns per Formular oder vereinbaren Sie direkt online einen Termin über den Kalender.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+
+          <!-- LEFT: Contact Form -->
+          <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 animate-on-scroll">
+            <h3 class="font-heading font-bold text-xl text-gray-800 mb-6">Nachricht senden</h3>
+
+            <form id="contact-form" novalidate class="space-y-5">
+
+              <!-- Name -->
+              <div>
+                <label for="name" class="block text-sm font-heading font-semibold text-gray-700 mb-1.5">Ihr Name <span class="text-brand">*</span></label>
+                <input id="name" name="name" type="text" required autocomplete="name"
+                       placeholder="Max Mustermann"
+                       class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-sans text-sm
+                              focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand
+                              transition-all placeholder-gray-400" />
+                <p class="error-msg hidden text-red-500 text-xs mt-1.5 font-semibold" role="alert">Bitte geben Sie Ihren Namen ein.</p>
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label for="email" class="block text-sm font-heading font-semibold text-gray-700 mb-1.5">E-Mail-Adresse <span class="text-brand">*</span></label>
+                <input id="email" name="email" type="email" required autocomplete="email"
+                       placeholder="max@beispiel.de"
+                       class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-sans text-sm
+                              focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand
+                              transition-all placeholder-gray-400" />
+                <p class="error-msg hidden text-red-500 text-xs mt-1.5 font-semibold" role="alert">Bitte geben Sie eine gültige E-Mail-Adresse ein.</p>
+              </div>
+
+              <!-- Phone -->
+              <div>
+                <label for="phone" class="block text-sm font-heading font-semibold text-gray-700 mb-1.5">Telefonnummer <span class="text-gray-400 font-normal">(optional)</span></label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel"
+                       placeholder="07071 XXXXXX"
+                       class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-sans text-sm
+                              focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand
+                              transition-all placeholder-gray-400" />
+              </div>
+
+              <!-- Message -->
+              <div>
+                <label for="message" class="block text-sm font-heading font-semibold text-gray-700 mb-1.5">Ihre Nachricht <span class="text-brand">*</span></label>
+                <textarea id="message" name="message" required rows="4"
+                          placeholder="Ihr Anliegen oder Ihre Frage..."
+                          class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-sans text-sm
+                                 focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand
+                                 transition-all placeholder-gray-400 resize-none"></textarea>
+                <p class="error-msg hidden text-red-500 text-xs mt-1.5 font-semibold" role="alert">Bitte geben Sie eine Nachricht ein.</p>
+              </div>
+
+              <!-- Privacy Checkbox -->
+              <div class="flex items-start gap-3">
+                <input id="privacy" name="privacy" type="checkbox" required
+                       class="mt-0.5 h-4 w-4 rounded border-gray-300 flex-shrink-0"
+                       style="accent-color: #00667b" />
+                <label for="privacy" class="text-sm text-gray-600 leading-relaxed">
+                  Ich habe die <button type="button" onclick="openModal('datenschutz')" class="text-brand hover:underline font-semibold">Datenschutzerklärung</button> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. <span class="text-brand">*</span>
+                </label>
+              </div>
+              <p class="error-msg-privacy hidden text-red-500 text-xs font-semibold" role="alert">Bitte stimmen Sie der Datenschutzerklärung zu.</p>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submit-btn"
+                      class="w-full bg-brand text-white font-heading font-bold py-4 rounded-xl
+                             hover:bg-brand-dark transition-all hover:shadow-lg
+                             disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+                Nachricht senden
+              </button>
+
+              <!-- Success Message -->
+              <div id="form-success" class="hidden bg-green-50 border border-green-200 rounded-xl p-4" role="status">
+                <div class="flex items-center gap-2 text-green-700 font-heading font-semibold text-sm">
+                  <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                  Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir melden uns bald bei Ihnen.
+                </div>
+              </div>
+
+              <!-- Error Message -->
+              <div id="form-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-4" role="alert">
+                <div class="flex items-center gap-2 text-red-700 font-heading font-semibold text-sm">
+                  <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                  Beim Senden ist ein Fehler aufgetreten. Bitte rufen Sie uns an: <a href="tel:+4970717 3564" class="underline">07071-73564</a>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- RIGHT: Contact Info + Calendar -->
+          <div class="space-y-6 animate-on-scroll">
+
+            <!-- Contact info card -->
+            <div class="bg-brand text-white rounded-2xl p-6 sm:p-8 shadow-lg">
+              <h3 class="font-heading font-bold text-xl mb-6">Kontaktinformationen</h3>
+              <div class="space-y-5">
+
+                <div class="flex items-start gap-4">
+                  <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" aria-hidden="true">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Telefon</div>
+                    <a href="tel:+4970717 3564" class="font-semibold hover:underline">07071-73564</a>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" aria-hidden="true">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">E-Mail</div>
+                    <a href="mailto:praxis@kardio-tuebingen.de" class="font-semibold hover:underline break-all text-sm">praxis@kardio-tuebingen.de</a>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" aria-hidden="true">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Sprechzeiten</div>
+                    <div class="font-semibold">Dienstag 17–20 Uhr</div>
+                    <div class="text-white/80 text-sm">+ nach Vereinbarung</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                  <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" aria-hidden="true">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Adresse</div>
+                    <div class="font-semibold">Poststraße 2-4</div>
+                    <div class="text-white/80 text-sm">72072 Tübingen</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Google Calendar Embed -->
+            <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-1 px-1">Online-Terminbuchung</h3>
+              <p class="text-gray-500 text-xs px-1 mb-4">Freie Termine direkt im Kalender wählen</p>
+              <div class="calendar-wrapper rounded-xl overflow-hidden bg-gray-50">
+                <iframe
+                  src="https://calendar.google.com/calendar/embed?src=PLACEHOLDER_CALENDAR_ID&ctz=Europe%2FBerlin&mode=WEEK&bgcolor=%23ffffff&color=%2300667b"
+                  style="border: 0; width: 100%; height: 480px;"
+                  frameborder="0"
+                  scrolling="no"
+                  title="Online Terminbuchung – Dr. Tegtmeyer"
+                  loading="lazy">
+                </iframe>
+              </div>
+              <p class="text-xs text-gray-400 mt-2 px-1">* Bitte ersetzen Sie <code>PLACEHOLDER_CALENDAR_ID</code> mit Ihrer Google Calendar ID aus den Kalendereinstellungen.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. ANFAHRT
+    ============================================================ -->
+    <section id="anfahrt" class="py-20 lg:py-28 bg-white" aria-labelledby="anfahrt-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section heading -->
+        <div class="text-center mb-14 animate-on-scroll">
+          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Standort</span>
+          <h2 id="anfahrt-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">So finden Sie uns</h2>
+          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-on-scroll">
+
+          <!-- Map (2/3) -->
+          <div class="lg:col-span-2 rounded-2xl overflow-hidden shadow-lg h-80 sm:h-96 lg:h-[480px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2641.176!2d9.0530!3d48.5209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f1c5caf38a6f%3A0xf3a5e837b56b12b8!2sPoststra%C3%9Fe%202-4%2C%2072072%20T%C3%BCbingen!5e0!3m2!1sde!2sde!4v1"
+              width="100%"
+              height="100%"
+              style="border: 0;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Kardiologische Privatpraxis – Poststraße 2-4, 72072 Tübingen">
+            </iframe>
+          </div>
+
+          <!-- Info (1/3) -->
+          <div class="space-y-5">
+
+            <!-- Address card -->
+            <div class="bg-brand-light rounded-2xl p-6">
+              <h3 class="font-heading font-bold text-brand text-lg mb-4">Adresse</h3>
+              <address class="not-italic text-gray-700 space-y-1 text-sm leading-relaxed">
+                <div class="font-bold text-gray-800">Dr. med. Roland Tegtmeyer</div>
+                <div class="text-gray-500">Kardiologische Privatpraxis</div>
+                <div class="pt-2 font-semibold">Poststraße 2-4</div>
+                <div class="font-semibold">72072 Tübingen</div>
+              </address>
+              <a href="https://maps.google.com/?q=Poststraße+2-4,+72072+Tübingen"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center gap-1.5 mt-4 text-brand font-heading font-semibold text-sm hover:underline">
+                In Google Maps öffnen
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Transport -->
+            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+              <h3 class="font-heading font-bold text-gray-800 text-lg mb-5">Anfahrt</h3>
+              <div class="space-y-5">
+
+                <!-- Car -->
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 bg-brand-light rounded-xl flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                    <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="font-heading font-bold text-gray-800 text-sm mb-0.5">Mit dem Auto</div>
+                    <p class="text-gray-500 text-xs leading-relaxed">Parkmöglichkeiten in der Tiefgarage Poststraße oder am Stadtgraben.</p>
+                  </div>
+                </div>
+
+                <!-- Public transport -->
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 bg-brand-light rounded-xl flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                    <svg class="w-5 h-5 text-brand" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="font-heading font-bold text-gray-800 text-sm mb-0.5">Mit Bus &amp; Bahn</div>
+                    <p class="text-gray-500 text-xs leading-relaxed">Haltestelle „Tübingen Stadtmitte" — wenige Gehminuten entfernt.</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="bg-gray-900 text-gray-300" aria-label="Footer">
+
+    <!-- Main footer -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+        <!-- Brand -->
+        <div class="lg:col-span-2">
+          <div class="mb-4">
+            <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/f5a73715-1592-45fc-a713-45a8a1be7b6d/image-911x189.png"
+                 alt="Dr. med. Roland Tegtmeyer – Kardiologie Tübingen"
+                 class="h-10 w-auto object-contain brightness-0 invert" />
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+            Kardiologische Privatpraxis im Herzen von Tübingen. Persönliche Betreuung mit modernster Diagnostik und engem Kontakt zur Uniklinik.
+          </p>
+        </div>
+
+        <!-- Navigation -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-sm uppercase tracking-widest mb-5">Navigation</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#startseite" class="text-gray-400 hover:text-brand transition-colors">Startseite</a></li>
+            <li><a href="#ueber-mich" class="text-gray-400 hover:text-brand transition-colors">Über mich</a></li>
+            <li><a href="#leistungen" class="text-gray-400 hover:text-brand transition-colors">Leistungen</a></li>
+            <li><a href="#praevention" class="text-gray-400 hover:text-brand transition-colors">Prävention</a></li>
+            <li><a href="#kontakt" class="text-gray-400 hover:text-brand transition-colors">Kontakt &amp; Termin</a></li>
+            <li><a href="#anfahrt" class="text-gray-400 hover:text-brand transition-colors">Anfahrt</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="font-heading font-bold text-white text-sm uppercase tracking-widest mb-5">Kontakt</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li>Poststraße 2-4</li>
+            <li>72072 Tübingen</li>
+            <li class="pt-1"><a href="tel:+4970717 3564" class="hover:text-brand transition-colors">07071-73564</a></li>
+            <li><a href="mailto:praxis@kardio-tuebingen.de" class="hover:text-brand transition-colors break-all">praxis@kardio-tuebingen.de</a></li>
+            <li class="pt-1 text-gray-500 text-xs">Di 17–20 Uhr &amp; nach Vereinbarung</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-gray-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+        <span>&copy; 2026 Dr. med. Roland Tegtmeyer. Alle Rechte vorbehalten.</span>
+        <div class="flex items-center gap-6">
+          <button type="button" onclick="openModal('impressum')" class="hover:text-brand transition-colors">Impressum</button>
+          <button type="button" onclick="openModal('datenschutz')" class="hover:text-brand transition-colors">Datenschutz</button>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- ============================================================
+       MODALS
+  ============================================================ -->
+
+  <!-- Impressum Modal -->
+  <div id="modal-impressum" role="dialog" aria-modal="true" aria-labelledby="impressum-title"
+       class="fixed inset-0 z-[100] hidden items-center justify-center p-4 modal-backdrop bg-black/60">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+      <div class="sticky top-0 bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between rounded-t-2xl">
+        <h2 id="impressum-title" class="font-heading font-bold text-xl text-gray-800">Impressum</h2>
+        <button type="button" onclick="closeModal('impressum')"
+                class="text-gray-400 hover:text-gray-600 p-2 rounded-xl hover:bg-gray-100 transition-colors"
+                aria-label="Impressum schließen">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="px-8 py-6 prose-legal">
+        <h3>Angaben gemäß § 5 TMG</h3>
+        <address>
+          Dr. med. Roland Tegtmeyer<br>
+          Poststraße 2-4<br>
+          72072 Tübingen
+        </address>
+
+        <h3>Kontakt</h3>
+        <p>
+          Telefon: 07071-73564<br>
+          E-Mail: <a href="mailto:praxis@kardio-tuebingen.de">praxis@kardio-tuebingen.de</a>
+        </p>
+
+        <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
+        <p>
+          Berufsbezeichnung: Facharzt für Innere Medizin und Kardiologie<br>
+          Zuständige Kammer: Landesärztekammer Baden-Württemberg<br>
+          Verliehen in: Deutschland
+        </p>
+
+        <h3>Aufsichtsbehörde</h3>
+        <p>Kassenärztliche Vereinigung Baden-Württemberg (KVBW)</p>
+
+        <h3>Haftung für Inhalte</h3>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+
+        <h3>Haftung für Links</h3>
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+        </p>
+
+        <h3>Urheberrecht</h3>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datenschutz Modal -->
+  <div id="modal-datenschutz" role="dialog" aria-modal="true" aria-labelledby="datenschutz-title"
+       class="fixed inset-0 z-[100] hidden items-center justify-center p-4 modal-backdrop bg-black/60">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+      <div class="sticky top-0 bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between rounded-t-2xl">
+        <h2 id="datenschutz-title" class="font-heading font-bold text-xl text-gray-800">Datenschutzerklärung</h2>
+        <button type="button" onclick="closeModal('datenschutz')"
+                class="text-gray-400 hover:text-gray-600 p-2 rounded-xl hover:bg-gray-100 transition-colors"
+                aria-label="Datenschutz schließen">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="px-8 py-6 prose-legal">
+        <h3>1. Datenschutz auf einen Blick</h3>
+        <p>
+          Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
+        </p>
+
+        <h3>2. Verantwortliche Stelle</h3>
+        <address>
+          Dr. med. Roland Tegtmeyer<br>
+          Poststraße 2-4, 72072 Tübingen<br>
+          E-Mail: <a href="mailto:praxis@kardio-tuebingen.de">praxis@kardio-tuebingen.de</a>
+        </address>
+
+        <h3>3. Erhebung von Daten auf dieser Website</h3>
+        <p>
+          <strong>Kontaktformular:</strong> Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter. Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO.
+        </p>
+
+        <h3>4. Eingebettete Inhalte</h3>
+        <p>
+          Diese Website verwendet Google Maps und Google Calendar. Bei der Nutzung dieser Dienste werden Daten an Google LLC übertragen. Weitere Informationen finden Sie in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.
+        </p>
+
+        <h3>5. Ihre Rechte</h3>
+        <p>
+          Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger sowie den Zweck der Datenverarbeitung sowie ein Recht auf Berichtigung oder Löschung dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema Datenschutz können Sie sich jederzeit an uns wenden.
+        </p>
+
+        <h3>6. Schweigepflicht</h3>
+        <p>
+          Als ärztliche Praxis unterliegen wir der ärztlichen Schweigepflicht gemäß § 203 StGB sowie den berufsrechtlichen Regelungen. Ihre Gesundheitsdaten werden streng vertraulich behandelt und nur zum Zweck der medizinischen Versorgung verarbeitet.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    // ── Mobile Menu ──────────────────────────────────────────────
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+      iconOpen.classList.toggle('hidden', isOpen);
+      iconClose.classList.toggle('hidden', !isOpen);
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+    });
+
+    // ── Sticky Header ─────────────────────────────────────────────
+    const header = document.getElementById('header');
+
+    const handleScroll = () => {
+      if (window.scrollY > 60) {
+        header.classList.add('bg-white', 'shadow-md');
+      } else {
+        header.classList.remove('bg-white', 'shadow-md');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // ── Active Nav Highlighting ───────────────────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+
+    // ── Scroll Animations ─────────────────────────────────────────
+    const animEls = document.querySelectorAll('.animate-on-scroll');
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animEls.forEach(el => el.classList.add('visible'));
+    } else {
+      const animObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            animObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      animEls.forEach(el => animObserver.observe(el));
+    }
+
+    // ── Contact Form ──────────────────────────────────────────────
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
+    const setFieldError = (fieldId, hasError) => {
+      const field = document.getElementById(fieldId);
+      const errorEl = field.closest('div').querySelector('.error-msg');
+      field.classList.toggle('border-red-400', hasError);
+      field.classList.toggle('ring-red-300', hasError);
+      field.classList.toggle('border-gray-200', !hasError);
+      if (errorEl) errorEl.classList.toggle('hidden', !hasError);
+    };
+
+    // Real-time blur validation
+    document.getElementById('name').addEventListener('blur', () => {
+      setFieldError('name', document.getElementById('name').value.trim().length < 2);
+    });
+    document.getElementById('email').addEventListener('blur', () => {
+      setFieldError('email', !isValidEmail(document.getElementById('email').value));
+    });
+    document.getElementById('message').addEventListener('blur', () => {
+      setFieldError('message', document.getElementById('message').value.trim().length < 5);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      const privacy = document.getElementById('privacy');
+
+      let valid = true;
+
+      if (name.trim().length < 2) { setFieldError('name', true); valid = false; } else { setFieldError('name', false); }
+      if (!isValidEmail(email)) { setFieldError('email', true); valid = false; } else { setFieldError('email', false); }
+      if (message.trim().length < 5) { setFieldError('message', true); valid = false; } else { setFieldError('message', false); }
+
+      const privacyError = document.querySelector('.error-msg-privacy');
+      if (!privacy.checked) {
+        privacyError.classList.remove('hidden');
+        valid = false;
+      } else {
+        privacyError.classList.add('hidden');
+      }
+
+      if (!valid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Wird gesendet…';
+
+      document.getElementById('form-success').classList.add('hidden');
+      document.getElementById('form-error').classList.add('hidden');
+
+      try {
+        // Replace PLACEHOLDER_FORM_ID with your Formspree form ID
+        const response = await fetch('https://formspree.io/f/PLACEHOLDER_FORM_ID', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: document.getElementById('phone').value,
+            message: message,
+          }),
+        });
+
+        if (response.ok) {
+          form.reset();
+          document.getElementById('form-success').classList.remove('hidden');
+          document.getElementById('form-success').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        document.getElementById('form-error').classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Nachricht senden';
+      }
+    });
+
+    // ── Modals ────────────────────────────────────────────────────
+    function openModal(id) {
+      const modal = document.getElementById(`modal-${id}`);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        modal.querySelector('button[onclick*="closeModal"]').focus();
+      }, 50);
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(`modal-${id}`);
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[role="dialog"]').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal.id.replace('modal-', ''));
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[role="dialog"].flex').forEach(modal => {
+          closeModal(modal.id.replace('modal-', ''));
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

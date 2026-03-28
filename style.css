@@ -1,0 +1,182 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&family=Nunito:wght@300;400;600;700&display=swap');
+
+/* Smooth scroll with offset for fixed nav */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Active nav link */
+.nav-link.active {
+  color: #00667b;
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #00667b;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+
+.nav-link.active::after,
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Scroll-triggered animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.animate-on-scroll.visible {
+  animation: fadeInUp 0.65s ease forwards;
+}
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.12s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.19s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.26s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.33s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.40s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.47s; }
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #00667b;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Hero scroll indicator */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(8px) translateX(-50%); }
+}
+
+.scroll-indicator {
+  animation: bounce 1.8s ease-in-out infinite;
+}
+
+/* Hero background */
+.hero-bg {
+  background-image: url('https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/100aa4b8-aa99-4d8c-ad96-9be6a5a56508/l0,t0,w2000,h1500/image-1138x854.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Doctor image */
+.doctor-img {
+  background-image: url('https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/b401102d-e63a-4912-bab7-feb8458e712d/l0,t220,w1500,h1440/image-768x737.jpg');
+  background-size: cover;
+  background-position: center top;
+}
+
+/* Prevention image – kein eigenes Bild auf der Originalseite vorhanden */
+.prevention-img {
+  background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=700&q=80&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Calendar wrapper */
+.calendar-wrapper iframe {
+  border-radius: 12px;
+  display: block;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Prose styles for legal text */
+.prose-legal h3 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1f2937;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-legal p,
+.prose-legal address {
+  color: #4b5563;
+  line-height: 1.7;
+  font-style: normal;
+  margin-bottom: 0.75rem;
+}
+
+.prose-legal a {
+  color: #00667b;
+  text-decoration: underline;
+}
+
+/* Accessibility: skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: #00667b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .scroll-indicator {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Print */
+@media print {
+  header,
+  footer,
+  #kontakt iframe,
+  #anfahrt iframe,
+  .scroll-indicator {
+    display: none !important;
+  }
+}
