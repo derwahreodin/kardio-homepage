@@ -22,13 +22,15 @@
             brand: {
               DEFAULT: '#00667b',
               dark:    '#00505f',
-              light:   '#e6f3f6',
+              light:   '#e8f2f4',
               muted:   '#cce6ec',
-            }
+            },
+            surface: '#f7f6f3',
+            ink:     '#0d1f26',
           },
           fontFamily: {
-            sans:    ['"Nunito"', 'sans-serif'],
-            heading: ['"Nunito Sans"', 'sans-serif'],
+            sans:    ['"DM Sans"', 'sans-serif'],
+            heading: ['"DM Serif Display"', 'serif'],
           }
         }
       }
@@ -38,11 +40,20 @@
   <!-- Custom CSS (Google Fonts + animations) -->
   <link rel="stylesheet" href="style.css" />
 
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.134.0/build/three.min.js"></script>
+
   <!-- Favicon (inline SVG heart) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
 </head>
 
-<body class="font-sans antialiased text-gray-800 bg-white">
+<body class="font-sans antialiased text-ink">
+
+  <!-- Dotted Surface Background -->
+  <div id="dotted-surface" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></div>
+
+  <!-- Page content wrapper (sits above dotted surface) -->
+  <div style="position:relative;z-index:1;">
 
   <!-- Skip Link -->
   <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
@@ -62,14 +73,15 @@
         </a>
 
         <!-- Desktop Nav -->
-        <ul class="hidden lg:flex items-center gap-6 xl:gap-8 font-heading font-semibold text-sm text-gray-700">
+        <ul class="hidden lg:flex items-center gap-6 xl:gap-8 font-sans font-medium text-sm text-ink/80">
           <li><a href="#ueber-mich" class="nav-link hover:text-brand transition-colors pb-1">Über mich</a></li>
           <li><a href="#leistungen" class="nav-link hover:text-brand transition-colors pb-1">Leistungen</a></li>
           <li><a href="#praevention" class="nav-link hover:text-brand transition-colors pb-1">Prävention</a></li>
           <li><a href="#kontakt" class="nav-link hover:text-brand transition-colors pb-1">Kontakt & Termin</a></li>
+          <li><a href="#kardio-news" class="nav-link hover:text-brand transition-colors pb-1">Kardio-News</a></li>
           <li><a href="#anfahrt" class="nav-link hover:text-brand transition-colors pb-1">Anfahrt</a></li>
           <li>
-            <a href="#kontakt" class="bg-brand text-white px-5 py-2.5 rounded-full hover:bg-brand-dark transition-colors shadow-sm font-semibold text-sm whitespace-nowrap">
+            <a href="#kontakt" class="bg-brand text-white px-5 py-2.5 rounded-lg hover:bg-brand-dark transition-colors shadow-sm font-medium text-sm whitespace-nowrap tracking-wide btn-primary">
               Termin vereinbaren
             </a>
           </li>
@@ -89,13 +101,14 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden lg:hidden border-t border-brand-muted bg-white/95 backdrop-blur-sm rounded-b-2xl shadow-lg">
+      <div id="mobile-menu" class="hidden lg:hidden border-t border-white/10 bg-ink/95 backdrop-blur-sm rounded-b-2xl shadow-lg">
         <ul class="flex flex-col py-3 font-heading font-semibold text-gray-700">
-          <li><a href="#ueber-mich" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Über mich</a></li>
-          <li><a href="#leistungen" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Leistungen</a></li>
-          <li><a href="#praevention" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Prävention</a></li>
-          <li><a href="#kontakt" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Kontakt & Termin</a></li>
-          <li><a href="#anfahrt" class="mobile-nav-link block px-6 py-3 hover:bg-brand-light hover:text-brand transition-colors rounded-xl mx-2">Anfahrt</a></li>
+          <li><a href="#ueber-mich" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Über mich</a></li>
+          <li><a href="#leistungen" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Leistungen</a></li>
+          <li><a href="#praevention" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Prävention</a></li>
+          <li><a href="#kontakt" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Kontakt & Termin</a></li>
+          <li><a href="#kardio-news" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Kardio-News</a></li>
+          <li><a href="#anfahrt" class="mobile-nav-link block px-6 py-3 text-white/70 hover:bg-white/10 hover:text-brand transition-colors rounded-xl mx-2">Anfahrt</a></li>
           <li class="px-4 pt-2 pb-4">
             <a href="#kontakt" class="mobile-nav-link block bg-brand text-white text-center py-3 rounded-full hover:bg-brand-dark transition-colors font-semibold">
               Termin vereinbaren
@@ -127,24 +140,25 @@
         <div class="max-w-2xl">
 
           <!-- Eyebrow -->
-          <span class="inline-block bg-brand text-white text-xs font-heading font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6 shadow-md">
-            Kardiologische Privatpraxis Tübingen
-          </span>
+          <div class="flex items-center gap-3 mb-8">
+            <div class="w-8 h-px bg-white/60"></div>
+            <span class="text-white/80 text-xs font-sans font-medium uppercase tracking-[0.2em]">Kardiologische Privatpraxis Tübingen</span>
+          </div>
 
-          <h1 class="font-heading font-extrabold text-white text-4xl sm:text-5xl lg:text-6xl leading-tight mb-6">
-            Herzlich<br>Willkommen
+          <h1 class="font-heading text-white text-5xl sm:text-6xl lg:text-7xl leading-[1.1] mb-6">
+            Herzlich<br><em>Willkommen</em>
           </h1>
 
-          <p class="text-gray-200 text-lg sm:text-xl leading-relaxed mb-10 font-light max-w-xl">
+          <p class="text-white/75 text-lg leading-relaxed mb-10 max-w-lg font-sans font-light">
             Persönliche kardiologische Betreuung mit modernster Diagnostik — im Herzen von Tübingen.
           </p>
 
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4">
-            <a href="#kontakt" class="bg-brand text-white font-heading font-bold px-8 py-4 rounded-full text-center hover:bg-brand-dark transition-all hover:shadow-xl hover:-translate-y-0.5 transform shadow-lg">
+            <a href="#kontakt" class="bg-brand text-white font-sans font-medium px-8 py-4 rounded-lg text-center hover:bg-brand-dark transition-all shadow-lg tracking-wide btn-primary">
               Termin vereinbaren
             </a>
-            <a href="#leistungen" class="border-2 border-white/80 text-white font-heading font-bold px-8 py-4 rounded-full text-center hover:bg-white hover:text-brand transition-all backdrop-blur-sm">
+            <a href="#leistungen" class="border border-white/50 text-white font-sans font-medium px-8 py-4 rounded-lg text-center hover:bg-white/10 transition-all backdrop-blur-sm tracking-wide">
               Unsere Leistungen
             </a>
           </div>
@@ -162,47 +176,42 @@
     <!-- ============================================================
          INFO BAR
     ============================================================ -->
-    <div class="bg-brand text-white py-5 shadow-md" aria-label="Kontaktinformationen">
+    <div class="bg-ink text-white py-4" aria-label="Kontaktinformationen">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
 
           <!-- Sprechzeiten -->
-          <div class="flex items-center justify-center sm:justify-start gap-3">
-            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
-              </svg>
-            </div>
+          <div class="flex items-center justify-center sm:justify-start gap-3 py-3 sm:py-0 sm:pr-8">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
+            </svg>
             <div>
-              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Sprechzeiten</div>
-              <div class="font-semibold text-sm">Di 17–20 Uhr &amp; nach Vereinbarung</div>
+              <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/50 mb-0.5">Sprechzeiten</div>
+              <div class="font-sans font-medium text-sm text-white/90">Di 17–20 Uhr</div>
+              <div class="font-sans text-xs text-white/50">+ weitere Termine nach Vereinbarung</div>
             </div>
           </div>
 
           <!-- Telefon -->
-          <div class="flex items-center justify-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-              </svg>
-            </div>
+          <div class="flex items-center justify-center gap-3 py-3 sm:py-0 sm:px-8">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
             <div>
-              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Telefon</div>
-              <a href="tel:+4970717 3564" class="font-semibold text-sm hover:underline">07071-73564</a>
+              <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/50 mb-0.5">Telefon</div>
+              <a href="tel:+4970717 3564" class="font-sans font-medium text-sm text-white/90 hover:text-brand transition-colors">07071-73564</a>
             </div>
           </div>
 
           <!-- Adresse -->
-          <div class="flex items-center justify-center sm:justify-end gap-3">
-            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0" aria-hidden="true">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-            </div>
+          <div class="flex items-center justify-center sm:justify-end gap-3 py-3 sm:py-0 sm:pl-8">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
             <div>
-              <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/70">Adresse</div>
-              <div class="font-semibold text-sm">Poststraße 2-4, 72072 Tübingen</div>
+              <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/50 mb-0.5">Adresse</div>
+              <div class="font-sans font-medium text-sm text-white/90">Poststraße 2-4, 72072 Tübingen</div>
             </div>
           </div>
 
@@ -211,16 +220,151 @@
     </div>
 
     <!-- ============================================================
+         TRUST STRIP
+    ============================================================ -->
+    <div class="bg-brand-light border-b border-brand/10 py-4" aria-label="Qualifikationen">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 lg:gap-x-10">
+
+          <!-- Uniklinikum -->
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            <span class="font-sans font-medium text-ink/70 text-sm">Oberarzt Uniklinikum Tübingen</span>
+          </div>
+
+          <div class="hidden sm:block w-px h-4 bg-brand/20" aria-hidden="true"></div>
+
+          <!-- Facharzt -->
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+            <span class="font-sans font-medium text-ink/70 text-sm">Facharzt Innere Medizin &amp; Kardiologie</span>
+          </div>
+
+          <div class="hidden sm:block w-px h-4 bg-brand/20" aria-hidden="true"></div>
+
+          <!-- Erfahrung -->
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="font-sans font-medium text-ink/70 text-sm">15+ Jahre klinische Erfahrung</span>
+          </div>
+
+          <div class="hidden sm:block w-px h-4 bg-brand/20" aria-hidden="true"></div>
+
+          <!-- Koronarangiographien -->
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-brand flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            <span class="font-sans font-medium text-ink/70 text-sm">1.000+ Koronarangiographien</span>
+          </div>
+
+          <div class="hidden sm:block w-px h-4 bg-brand/20" aria-hidden="true"></div>
+
+          <!-- Google Bewertung -->
+          <a href="https://www.google.com/search?q=Dr.+Tegtmeyer+Kardiologie+Tübingen#lrd=0x0:0x0,1" target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-2 hover:opacity-75 transition-opacity" aria-label="Google Bewertungen ansehen">
+            <!-- Google G icon -->
+            <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            <div class="flex items-center gap-1">
+              <span class="font-sans font-semibold text-ink/80 text-sm">4,8</span>
+              <div class="flex items-center gap-0.5" aria-label="4,8 von 5 Sternen">
+                <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-3.5 h-3.5 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              </div>
+              <span class="font-sans text-ink/50 text-xs">(4 Bewertungen)</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         1b. SCROLL VIDEO
+    ============================================================ -->
+    <div id="video-scroll" style="height: 500vh;">
+      <div class="video-sticky">
+
+        <!-- Video element — scrubbed via scroll -->
+        <video id="scroll-video" muted playsinline preload="auto" aria-hidden="true">
+          <source src="Video1.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Dark gradient overlay -->
+        <div class="video-overlay" aria-hidden="true"></div>
+
+        <!-- Scroll-progress bar at bottom -->
+        <div class="video-progress-bar" id="video-progress" aria-hidden="true"></div>
+
+        <!-- Phase indicators (dots) -->
+        <div class="video-phase-dots" aria-hidden="true">
+          <div class="video-phase-dot" data-dot="0"></div>
+          <div class="video-phase-dot" data-dot="1"></div>
+          <div class="video-phase-dot" data-dot="2"></div>
+          <div class="video-phase-dot" data-dot="3"></div>
+        </div>
+
+        <!-- Phase 1: Willkommen -->
+        <div class="video-text-phase active" data-phase="0">
+          <div class="phase-label">Kardiologische Privatpraxis</div>
+          <h2>Persönliche<br>Betreuung</h2>
+          <p>Als Ihr Kardiologe betreue ich Sie individuell — mit modernsten Geräten und großer klinischer Erfahrung in angenehmer Atmosphäre.</p>
+        </div>
+
+        <!-- Phase 2: Diagnostik -->
+        <div class="video-text-phase" data-phase="1">
+          <div class="phase-label">Modernste Diagnostik</div>
+          <h2>Herzuntersuchung<br><em>auf höchstem Niveau</em></h2>
+          <p>EKG, Echokardiographie, Langzeit-Monitoring, Labordiagnostik — alles unter einem Dach, direkt und ohne lange Wartezeiten.</p>
+        </div>
+
+        <!-- Phase 3: Uniklinik -->
+        <div class="video-text-phase" data-phase="2">
+          <div class="phase-label">Uniklinik Tübingen</div>
+          <h2>Direkter Kontakt<br>zur Klinik</h2>
+          <p>Als Oberarzt der Kardiologie am Uniklinikum Tübingen ermögliche ich bei Bedarf zeitnah weiterführende Diagnostik und Behandlung.</p>
+        </div>
+
+        <!-- Phase 4: CTA -->
+        <div class="video-text-phase" data-phase="3">
+          <div class="phase-label">Termin vereinbaren</div>
+          <h2>Ihr Herz<br>in guten Händen</h2>
+          <p>Vereinbaren Sie jetzt einen Termin — online, schnell und ohne lange Wartezeit.</p>
+          <a href="#kontakt" class="phase-cta">
+            Termin buchen
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
          2. ÜBER MICH
     ============================================================ -->
-    <section id="ueber-mich" class="py-20 lg:py-28 bg-white" aria-labelledby="ueber-mich-heading">
+    <section id="ueber-mich" class="py-20 lg:py-28" aria-labelledby="ueber-mich-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Section heading -->
         <div class="text-center mb-16 animate-on-scroll">
-          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Ihr Kardiologe</span>
-          <h2 id="ueber-mich-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Über mich</h2>
-          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+          <span class="section-label">Ihr Kardiologe</span>
+          <h2 id="ueber-mich-heading" class="font-heading text-ink text-4xl sm:text-5xl">Über mich</h2>
         </div>
 
         <!-- Two columns: Photo + Bio -->
@@ -231,67 +375,67 @@
             <div class="doctor-img rounded-2xl overflow-hidden shadow-2xl aspect-[4/5] w-full max-w-sm mx-auto lg:max-w-none"></div>
             <!-- Floating card -->
             <div class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 bg-brand text-white rounded-2xl p-4 sm:p-5 shadow-2xl">
-              <div class="font-heading font-extrabold text-2xl sm:text-3xl leading-none">15+</div>
+              <div class="font-heading text-2xl sm:text-3xl leading-none">15+</div>
               <div class="text-xs sm:text-sm text-white/90 font-semibold mt-1">Jahre Erfahrung</div>
             </div>
           </div>
 
           <!-- Bio -->
           <div class="animate-on-scroll">
-            <h3 class="font-heading font-extrabold text-2xl sm:text-3xl text-gray-800 mb-1">Dr. med. Roland Tegtmeyer</h3>
-            <p class="text-brand font-heading font-semibold mb-6 text-sm uppercase tracking-wide">Facharzt für Innere Medizin und Kardiologie · Oberarzt Uniklinikum Tübingen</p>
+            <h3 class="font-heading text-2xl sm:text-3xl text-ink mb-1">Dr. med. Roland Tegtmeyer</h3>
+            <p class="text-brand font-sans font-medium mb-6 text-sm tracking-wide">Facharzt für Innere Medizin und Kardiologie · Oberarzt Uniklinikum Tübingen</p>
 
-            <p class="text-gray-600 leading-relaxed mb-4">
+            <p class="text-ink/60 leading-relaxed mb-4 font-sans">
               Gesundheit ist unser wertvollstes Gut — daher habe ich als erfahrener Kardiologe den Anspruch, Sie individuell und persönlich mit modernen Geräten und großer Erfahrung im Bereich der Herz- und Gefäßmedizin in angenehmer Atmosphäre zu betreuen.
             </p>
-            <p class="text-gray-600 leading-relaxed mb-6">
+            <p class="text-ink/60 leading-relaxed mb-6 font-sans">
               Als Oberarzt der Kardiologie der Uniklinik Tübingen habe ich einen engen Kontakt zur Klinik. Eine etwaige weiterführende Diagnostik ist somit zeitnah zu ermöglichen. Neben sehr zeitnahen Online-Terminvergaben ohne große Wartezeiten ist für mich eine persönliche Betreuung auch außerhalb der Sprechzeiten selbstverständlich.
             </p>
 
-            <!-- Credential pills -->
+            <!-- Credential tags -->
             <div class="flex flex-wrap gap-2 mb-8">
-              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Facharzt für Innere Medizin &amp; Kardiologie</span>
-              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Zusatzbezeichnung Notfallmedizin</span>
-              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Zusatzbezeichnung Intensivmedizin</span>
-              <span class="bg-brand-light text-brand font-heading font-semibold text-xs px-3 py-1.5 rounded-full">Universitätsklinikum Tübingen</span>
+              <span class="bg-brand-light text-brand font-sans font-medium text-xs px-3 py-1.5 rounded-sm tracking-wide">Facharzt Innere Medizin &amp; Kardiologie</span>
+              <span class="bg-brand-light text-brand font-sans font-medium text-xs px-3 py-1.5 rounded-sm tracking-wide">Notfallmedizin</span>
+              <span class="bg-brand-light text-brand font-sans font-medium text-xs px-3 py-1.5 rounded-sm tracking-wide">Intensivmedizin</span>
+              <span class="bg-brand-light text-brand font-sans font-medium text-xs px-3 py-1.5 rounded-sm tracking-wide">Uniklinikum Tübingen</span>
             </div>
 
             <!-- CV Timeline -->
-            <div class="space-y-3 mb-8">
-              <h4 class="font-heading font-bold text-gray-800 text-sm uppercase tracking-widest mb-3">Curriculum Vitae</h4>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2005–2011</span>
-                <span class="text-gray-600">Studium der Humanmedizin, LMU München</span>
+            <div class="space-y-3 mb-8 border-l-2 border-brand/20 pl-5">
+              <h4 class="font-sans font-medium text-ink/50 text-xs uppercase tracking-[0.15em] mb-4 -ml-5 pl-5">Curriculum Vitae</h4>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2005–2011</span>
+                <span class="text-ink/60">Studium der Humanmedizin, LMU München</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2012–2018</span>
-                <span class="text-gray-600">Assistenzarzt Kardiologie, Uniklinikum Tübingen</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2012–2018</span>
+                <span class="text-ink/60">Assistenzarzt Kardiologie, Uniklinikum Tübingen</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2016</span>
-                <span class="text-gray-600">Anerkennung Zusatzbezeichnung Notfallmedizin</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2016</span>
+                <span class="text-ink/60">Anerkennung Zusatzbezeichnung Notfallmedizin</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2018</span>
-                <span class="text-gray-600">Anerkennung als Facharzt für Innere Medizin und Kardiologie</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2018</span>
+                <span class="text-ink/60">Facharzt für Innere Medizin und Kardiologie</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2018–2020</span>
-                <span class="text-gray-600">Facharzt Kardiologie, Uniklinikum Tübingen</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2018–2020</span>
+                <span class="text-ink/60">Facharzt Kardiologie, Uniklinikum Tübingen</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">2022</span>
-                <span class="text-gray-600">Anerkennung Zusatzbezeichnung Intensivmedizin</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">2022</span>
+                <span class="text-ink/60">Anerkennung Zusatzbezeichnung Intensivmedizin</span>
               </div>
-              <div class="flex gap-3 text-sm">
-                <span class="text-brand font-heading font-bold whitespace-nowrap">seit 2020</span>
-                <span class="text-gray-600">Ernennung zum Oberarzt Kardiologie, Uniklinikum Tübingen</span>
+              <div class="flex gap-4 text-sm">
+                <span class="text-brand font-sans font-semibold whitespace-nowrap w-20 flex-shrink-0">seit 2020</span>
+                <span class="text-ink/60">Oberarzt Kardiologie, Uniklinikum Tübingen</span>
               </div>
             </div>
 
-            <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-6 py-3.5 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+            <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-sans font-medium px-6 py-3.5 rounded-lg hover:bg-brand-dark transition-all tracking-wide btn-primary">
               Termin vereinbaren
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
               </svg>
             </a>
@@ -301,62 +445,62 @@
 
         <!-- Specialty areas -->
         <div class="animate-on-scroll">
-          <h3 class="font-heading font-extrabold text-gray-800 text-2xl sm:text-3xl text-center mb-10">Schwerpunkte</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+          <h3 class="font-heading text-ink text-2xl sm:text-3xl text-center mb-10">Schwerpunkte</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 stagger-children">
 
             <!-- Invasive Kardiologie -->
-            <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
-              <div class="overflow-hidden h-44">
+            <div class="specialty-card bg-white rounded-xl overflow-hidden shadow-sm flex group">
+              <div class="overflow-hidden w-36 sm:w-44 flex-shrink-0">
                 <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/3ff980f6-3aaa-46be-9fee-28bc3729048e/l10,t0,w391,h293/image.jpg"
                      alt="Invasive Kardiologie – Herzkatheterlabor"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                      loading="lazy" />
               </div>
               <div class="p-5">
-                <h4 class="font-heading font-bold text-gray-800 mb-2">Invasive Kardiologie – Herzkatheter</h4>
-                <p class="text-gray-600 text-sm leading-relaxed">Durch meine langjährige weiterhin bestehende Tätigkeit im Herzkatheterlabor der Uniklinik Tübingen mit &gt;1000 Koronarangiographien und Stentimplantationen habe ich eine große Erfahrung auf dem Gebiet der Diagnostik und Therapie der koronaren Herzerkrankung.</p>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Invasive Kardiologie</h4>
+                <p class="text-ink/55 text-sm leading-relaxed">Über 1.000 Koronarangiographien und Stentimplantationen im Herzkatheterlabor der Uniklinik Tübingen.</p>
               </div>
             </div>
 
             <!-- Ultraschall - Echokardiographie -->
-            <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
-              <div class="overflow-hidden h-44">
+            <div class="specialty-card bg-white rounded-xl overflow-hidden shadow-sm flex group">
+              <div class="overflow-hidden w-36 sm:w-44 flex-shrink-0">
                 <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/308d92c0-6f2c-4dc9-8c5e-49317783b447/l0,t20,w2000,h1500/image-768x576.jpg"
                      alt="Ultraschall – Echokardiographie"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                      loading="lazy" />
               </div>
               <div class="p-5">
-                <h4 class="font-heading font-bold text-gray-800 mb-2">Ultraschall – Echokardiographie</h4>
-                <p class="text-gray-600 text-sm leading-relaxed">In meiner Tätigkeit als Kardiologe in Spezialambulanzen sowie in der Neuro-Kardiologie mit zahlreichen Herzuntersuchungen habe ich eine sehr große Erfahrung in der Transthorakalen- und Transösophagealen Echokardiographie.</p>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Ultraschall – Echokardiographie</h4>
+                <p class="text-ink/55 text-sm leading-relaxed">Große Erfahrung in transthorakaler und transösophagealer Echokardiographie aus Spezialambulanzen.</p>
               </div>
             </div>
 
             <!-- Ganzheitliche internistische Medizin -->
-            <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
-              <div class="overflow-hidden h-44">
+            <div class="specialty-card bg-white rounded-xl overflow-hidden shadow-sm flex group">
+              <div class="overflow-hidden w-36 sm:w-44 flex-shrink-0">
                 <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/a272d820-7d3e-4cd0-b52a-6037781c3bc9/l0,t19,w552,h414/image.png"
                      alt="Ganzheitliche internistische Medizin"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                      loading="lazy" />
               </div>
               <div class="p-5">
-                <h4 class="font-heading font-bold text-gray-800 mb-2">Ganzheitliche Internistische Medizin</h4>
-                <p class="text-gray-600 text-sm leading-relaxed">Nach vielen Jahren in der Notaufnahme sowie derzeit als Stationsoberarzt der Uniklinik Tübingen konnte ich mir ein breites internistisches-kardiologisches Wissen aneignen.</p>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Ganzheitliche Internistische Medizin</h4>
+                <p class="text-ink/55 text-sm leading-relaxed">Breites internistisch-kardiologisches Wissen aus vielen Jahren Notaufnahme und als Stationsoberarzt.</p>
               </div>
             </div>
 
             <!-- Intensiv- und Notfallmedizin -->
-            <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group border border-gray-100">
-              <div class="overflow-hidden h-44">
+            <div class="specialty-card bg-white rounded-xl overflow-hidden shadow-sm flex group">
+              <div class="overflow-hidden w-36 sm:w-44 flex-shrink-0">
                 <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/569aac5f-f424-48e1-9fa1-0360ab5c454a/l1,t0,w1999,h1499/image-768x576.jpg"
                      alt="Intensiv- und Notfallmedizin"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                      loading="lazy" />
               </div>
               <div class="p-5">
-                <h4 class="font-heading font-bold text-gray-800 mb-2">Intensiv- und Notfallmedizin</h4>
-                <p class="text-gray-600 text-sm leading-relaxed">Als Gründungsmitglied des Notarztvereins Tübingen sowie regelmäßigen Notarztdiensten in Tübingen sowie der Zusatzbezeichnung Intensivmedizin konnte ich hier eine breite Expertise erlangen.</p>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Intensiv- und Notfallmedizin</h4>
+                <p class="text-ink/55 text-sm leading-relaxed">Gründungsmitglied des Notarztvereins Tübingen, Zusatzbezeichnungen Intensiv- und Notfallmedizin.</p>
               </div>
             </div>
 
@@ -369,22 +513,21 @@
     <!-- ============================================================
          3. LEISTUNGEN
     ============================================================ -->
-    <section id="leistungen" class="py-20 lg:py-28 bg-gray-50" aria-labelledby="leistungen-heading">
+    <section id="leistungen" class="py-20 lg:py-28" aria-labelledby="leistungen-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Section heading -->
         <div class="text-center mb-14 animate-on-scroll">
-          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Kardiologische Versorgung</span>
-          <h2 id="leistungen-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Unsere Leistungen</h2>
-          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
-          <p class="mt-5 text-gray-600 max-w-xl mx-auto">Umfassende kardiologische Diagnostik und Behandlung mit modernsten Geräten und persönlicher Betreuung.</p>
+          <span class="section-label">Kardiologische Versorgung</span>
+          <h2 id="leistungen-heading" class="font-heading text-ink text-4xl sm:text-5xl">Unsere Leistungen</h2>
+          <p class="mt-5 text-ink/55 max-w-xl mx-auto font-sans">Umfassende kardiologische Diagnostik und Behandlung mit modernsten Geräten und persönlicher Betreuung.</p>
         </div>
 
         <!-- Service Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 animate-on-scroll stagger-children">
 
           <!-- 1. Ruhe-EKG & Belastungs-EKG -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/8c72c803-1f78-4dc7-88c9-3d329dc350d5/l303,t53,w1394,h1394/image-768x768.jpg"
                    alt="Ruhe-EKG und Belastungs-EKG"
@@ -392,13 +535,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Ruhe-EKG &amp; Belastungs-EKG</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Das Ruhe-EKG dient der Diagnose von (abgelaufenen) Herzinfarkten und Herzrhythmusstörungen. Das Belastungs-EKG ermöglicht die Früherkennung der koronaren Herzerkrankung.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Ruhe-EKG &amp; Belastungs-EKG</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Das Ruhe-EKG dient der Diagnose von Herzinfarkten und Herzrhythmusstörungen. Das Belastungs-EKG ermöglicht die Früherkennung der koronaren Herzerkrankung.</p>
             </div>
           </div>
 
           <!-- 2. Echokardiographie -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/b66a6950-0178-49b4-90e6-60edc3b28d4e/l0,t0,w547,h552/image.jpg"
                    alt="Transthorakale Farbdoppler-Echokardiographie"
@@ -406,13 +549,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Transthorakale Farbdoppler-Echokardiographie</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Die wichtigste Herzuntersuchung des Kardiologen: Herzinsuffizienz und Klappenfehler werden durch Darstellung der Herzfunktion und des Blutflusses erkannt. Stenosen und Insuffizienzen werden zuverlässig detektiert.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Transthorakale Farbdoppler-Echokardiographie</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Die wichtigste Herzuntersuchung des Kardiologen: Herzinsuffizienz und Klappenfehler werden durch Darstellung der Herzfunktion erkannt.</p>
             </div>
           </div>
 
           <!-- 3. Langzeit-EKG & Langzeit-Blutdruck -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/ad5b7e76-8a59-49cf-afce-162de85f161e/l220,t0,w1035,h1035/image-768x768.jpg"
                    alt="Langzeit-EKG und Langzeit-Blutdruckmessung"
@@ -420,13 +563,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Langzeit-EKG &amp; Langzeit-Blutdruck</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Das Langzeit-EKG erfasst Herzrhythmusstörungen über bis zu 48 Stunden. Die Langzeit-Blutdruckmessung verbessert die Hochdruckdiagnostik durch regelmäßige Messungen über 24 Stunden.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Langzeit-EKG &amp; Langzeit-Blutdruck</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Das Langzeit-EKG erfasst Herzrhythmusstörungen über 48 Stunden. Die Blutdruckmessung verbessert die Hochdruckdiagnostik über 24 Stunden.</p>
             </div>
           </div>
 
           <!-- 4. Herz-Checkup & Prävention -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/b10c1ede-d90d-45e9-9ae0-960aef409a73/l0,t17,w1024,h1024/image-768x768.png"
                    alt="Herz-Checkup und Prävention"
@@ -434,13 +577,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Herz-Checkup &amp; Prävention</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Primärprävention: Erkrankungen behandeln, bevor sie symptomatisch werden. Individuelle Risikoanalysen, Labordiagnostik, Belastungsuntersuchung und Ultraschall zur Einschätzung Ihres kardiovaskulären Risikos.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Herz-Checkup &amp; Prävention</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Individuelle Risikoanalysen, Labordiagnostik, Belastungsuntersuchung und Ultraschall zur Einschätzung des kardiovaskulären Risikos.</p>
             </div>
           </div>
 
           <!-- 5. Labordiagnostik -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/6e779b2d-92a1-4155-9542-67a4f43c5d2f/l62,t0,w1500,h1500/image-768x768.jpg"
                    alt="Labordiagnostik"
@@ -448,13 +591,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Labordiagnostik</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Cholesterin (LDL), NT-ProBNP sowie Notfallparameter inkl. Troponinmessung. Umfassendes Risikofaktormanagement zur Beurteilung und Behandlung kardiovaskulärer Risiken.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Labordiagnostik</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Cholesterin (LDL), NT-ProBNP sowie Notfallparameter inkl. Troponinmessung. Umfassendes Risikofaktormanagement.</p>
             </div>
           </div>
 
           <!-- 6. Doppler der Halsgefäße -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/9e59e738-d349-4ee9-bef1-82c4ec2fe142/l42,t0,w407,h407/image.jpg"
                    alt="Doppler der Halsgefäße"
@@ -462,13 +605,13 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">Doppler der Halsgefäße</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Beurteilung des Blutflusses in den Halsarterien mittels Doppler- bzw. Duplexsonographie. Erkennung von Verengungen (Stenosen) und Ablagerungen (Plaques) zur Schlaganfallprävention.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">Doppler der Halsgefäße</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Beurteilung des Blutflusses mittels Duplexsonographie. Erkennung von Stenosen und Plaques zur Schlaganfallprävention.</p>
             </div>
           </div>
 
           <!-- 7. ABI-Messung -->
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 group border border-gray-100 cursor-default sm:col-span-2 lg:col-span-1">
+          <div class="service-card bg-white rounded-xl overflow-hidden shadow-sm group cursor-default sm:col-span-2 lg:col-span-1">
             <div class="overflow-hidden h-48">
               <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/cd55470a-0a8c-4945-9acc-12f9c8481bba/l1,t200,w1200,h1200/image-768x768.jpg"
                    alt="ABI-Messung – Knöchel-Arm-Index"
@@ -476,8 +619,8 @@
                    loading="lazy" />
             </div>
             <div class="p-6">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-2">ABI-Messung</h3>
-              <p class="text-gray-500 text-sm leading-relaxed">Knöchel-Arm-Index zur Früherkennung von Gefäßverengungen (pAVK). Das Verhältnis der Blutdruckwerte zwischen den Extremitäten gibt Aufschluss über die arterielle Durchblutung.</p>
+              <h3 class="font-heading text-ink text-lg mb-2 leading-snug">ABI-Messung</h3>
+              <p class="text-ink/55 text-sm leading-relaxed font-sans">Knöchel-Arm-Index zur Früherkennung von Gefäßverengungen (pAVK). Das Verhältnis gibt Aufschluss über die arterielle Durchblutung.</p>
             </div>
           </div>
 
@@ -485,9 +628,9 @@
 
         <!-- CTA -->
         <div class="text-center mt-12 animate-on-scroll">
-          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-8 py-4 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-sans font-medium px-8 py-4 rounded-lg hover:bg-brand-dark transition-all tracking-wide btn-primary">
             Jetzt Termin vereinbaren
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
@@ -499,15 +642,14 @@
     <!-- ============================================================
          4. PRÄVENTION
     ============================================================ -->
-    <section id="praevention" class="py-20 lg:py-28 bg-white" aria-labelledby="praevention-heading">
+    <section id="praevention" class="py-20 lg:py-28" aria-labelledby="praevention-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Section heading -->
         <div class="text-center mb-14 animate-on-scroll">
-          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Früherkennung &amp; Vorsorge</span>
-          <h2 id="praevention-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Prävention</h2>
-          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
-          <p class="mt-5 text-gray-600 max-w-2xl mx-auto text-lg">Kennen Sie Ihr individuelles kardiovaskuläres Risiko?</p>
+          <span class="section-label">Früherkennung &amp; Vorsorge</span>
+          <h2 id="praevention-heading" class="font-heading text-ink text-4xl sm:text-5xl">Prävention</h2>
+          <p class="mt-5 text-ink/55 max-w-2xl mx-auto font-sans">Kennen Sie Ihr individuelles kardiovaskuläres Risiko?</p>
         </div>
 
         <!-- Image + Risikofaktoren -->
@@ -522,46 +664,46 @@
 
           <!-- Text & Risikofaktoren -->
           <div>
-            <p class="text-gray-600 leading-relaxed mb-6">
-              Herz-Kreislauf-Erkrankungen sind für rund <strong class="text-gray-800">34 % aller Todesfälle</strong> in Deutschland verantwortlich. Viele dieser Erkrankungen sind jedoch durch gezielte Früherkennung und konsequente Prävention vermeidbar oder zumindest verzögerbar.
+            <p class="text-ink/60 leading-relaxed mb-6 font-sans">
+              Herz-Kreislauf-Erkrankungen sind für rund <strong class="text-ink font-semibold">34 % aller Todesfälle</strong> in Deutschland verantwortlich. Viele dieser Erkrankungen sind durch gezielte Früherkennung und Prävention vermeidbar oder verzögerbar.
             </p>
-            <p class="text-gray-600 leading-relaxed mb-8">
-              Mithilfe des <strong class="text-gray-800">SCORE-Systems</strong> lässt sich das individuelle 10-Jahres-Risiko für ein tödliches kardiovaskuläres Ereignis berechnen — unter Berücksichtigung von Blutdruck, Cholesterin, Alter und Raucherstatus.
+            <p class="text-ink/60 leading-relaxed mb-8 font-sans">
+              Mithilfe des <strong class="text-ink font-semibold">SCORE-Systems</strong> lässt sich das individuelle 10-Jahres-Risiko für ein kardiovaskuläres Ereignis berechnen — unter Berücksichtigung von Blutdruck, Cholesterin, Alter und Raucherstatus.
             </p>
 
             <!-- Risikofaktoren -->
             <div class="space-y-4">
 
               <!-- Lipidstoffwechsel -->
-              <div class="bg-brand-light rounded-2xl p-5">
-                <h3 class="font-heading font-bold text-brand text-base mb-3">Lipidstoffwechsel</h3>
-                <div class="space-y-2 text-sm text-gray-700">
+              <div class="bg-brand-light rounded-xl p-5">
+                <h3 class="font-heading text-brand text-base mb-3">Lipidstoffwechsel</h3>
+                <div class="space-y-2 text-sm text-ink/70 font-sans">
                   <div class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span><strong>LDL-Cholesterin</strong> — das „schlechte" Cholesterin: erhöhte Werte fördern die Arterienverkalkung</span>
+                    <div class="w-1 h-1 bg-brand rounded-full mt-2 flex-shrink-0"></div>
+                    <span><strong class="text-ink font-medium">LDL-Cholesterin</strong> — erhöhte Werte fördern die Arterienverkalkung</span>
                   </div>
                   <div class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span><strong>HDL-Cholesterin</strong> — das „gute" Cholesterin: schützt die Gefäße und transportiert Cholesterin zur Leber</span>
+                    <div class="w-1 h-1 bg-brand rounded-full mt-2 flex-shrink-0"></div>
+                    <span><strong class="text-ink font-medium">HDL-Cholesterin</strong> — schützt die Gefäße und transportiert Cholesterin zur Leber</span>
                   </div>
                   <div class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span><strong>Triglyzeride</strong> — erhöhte Werte steigern das kardiovaskuläre Risiko zusätzlich</span>
+                    <div class="w-1 h-1 bg-brand rounded-full mt-2 flex-shrink-0"></div>
+                    <span><strong class="text-ink font-medium">Triglyzeride</strong> — erhöhte Werte steigern das kardiovaskuläre Risiko zusätzlich</span>
                   </div>
                 </div>
               </div>
 
               <!-- Glukosestoffwechsel -->
-              <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100">
-                <h3 class="font-heading font-bold text-gray-800 text-base mb-3">Glukosestoffwechsel</h3>
-                <div class="space-y-2 text-sm text-gray-700">
+              <div class="bg-surface rounded-xl p-5">
+                <h3 class="font-heading text-ink text-base mb-3">Glukosestoffwechsel</h3>
+                <div class="space-y-2 text-sm text-ink/70 font-sans">
                   <div class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span><strong>Blutzucker</strong> — Zielwert nüchtern unter 100 mg/dl; gesunde Ernährung und Bewegung sind entscheidend</span>
+                    <div class="w-1 h-1 bg-brand rounded-full mt-2 flex-shrink-0"></div>
+                    <span><strong class="text-ink font-medium">Blutzucker</strong> — Zielwert nüchtern unter 100 mg/dl; Ernährung und Bewegung sind entscheidend</span>
                   </div>
                   <div class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 bg-brand rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span><strong>HbA1c</strong> — spiegelt den Blutzucker der vergangenen 8–12 Wochen wider und ist ein wichtiger Langzeitmarker</span>
+                    <div class="w-1 h-1 bg-brand rounded-full mt-2 flex-shrink-0"></div>
+                    <span><strong class="text-ink font-medium">HbA1c</strong> — spiegelt den Blutzucker der vergangenen 8–12 Wochen wider</span>
                   </div>
                 </div>
               </div>
@@ -572,31 +714,43 @@
 
         <!-- 4-Schritte-Prozess -->
         <div class="animate-on-scroll">
-          <h3 class="font-heading font-bold text-gray-800 text-xl text-center mb-8">Unser 4-Schritte-Prozess zur Risikoabschätzung</h3>
+          <h3 class="font-heading text-ink text-xl text-center mb-8">Unser 4-Schritte-Prozess zur Risikoabschätzung</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
 
-            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
-              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">1</div>
-              <h4 class="font-heading font-bold text-gray-800 mb-2">Strukturierte Anamnese</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Ausführliche Erfassung Ihrer Krankengeschichte, Risikofaktoren und familiären Vorbelastung.</p>
+            <div class="bg-surface rounded-xl p-6 relative overflow-hidden">
+              <div class="step-num">1</div>
+              <div class="relative z-10">
+                <div class="text-brand font-sans font-semibold text-xs tracking-[0.15em] uppercase mb-3">Schritt 1</div>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Strukturierte Anamnese</h4>
+                <p class="text-ink/55 text-sm leading-relaxed font-sans">Ausführliche Erfassung Ihrer Krankengeschichte, Risikofaktoren und familiären Vorbelastung.</p>
+              </div>
             </div>
 
-            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
-              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">2</div>
-              <h4 class="font-heading font-bold text-gray-800 mb-2">Labordiagnostik</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Umfassende Blutanalyse: Cholesterin, Blutzucker, HbA1c, Entzündungsmarker und weitere Herzwerte.</p>
+            <div class="bg-surface rounded-xl p-6 relative overflow-hidden">
+              <div class="step-num">2</div>
+              <div class="relative z-10">
+                <div class="text-brand font-sans font-semibold text-xs tracking-[0.15em] uppercase mb-3">Schritt 2</div>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Labordiagnostik</h4>
+                <p class="text-ink/55 text-sm leading-relaxed font-sans">Umfassende Blutanalyse: Cholesterin, Blutzucker, HbA1c, Entzündungsmarker und weitere Herzwerte.</p>
+              </div>
             </div>
 
-            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
-              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">3</div>
-              <h4 class="font-heading font-bold text-gray-800 mb-2">Gesamtrisikoabschätzung</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Berechnung Ihres individuellen kardiovaskulären Gesamtrisikos mittels des validierten SCORE-Systems.</p>
+            <div class="bg-surface rounded-xl p-6 relative overflow-hidden">
+              <div class="step-num">3</div>
+              <div class="relative z-10">
+                <div class="text-brand font-sans font-semibold text-xs tracking-[0.15em] uppercase mb-3">Schritt 3</div>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Gesamtrisikoabschätzung</h4>
+                <p class="text-ink/55 text-sm leading-relaxed font-sans">Berechnung des individuellen kardiovaskulären Risikos mittels des validierten SCORE-Systems.</p>
+              </div>
             </div>
 
-            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm text-center relative">
-              <div class="w-12 h-12 bg-brand text-white font-heading font-extrabold text-xl rounded-full flex items-center justify-center mx-auto mb-4">4</div>
-              <h4 class="font-heading font-bold text-gray-800 mb-2">Interventionsstrategie</h4>
-              <p class="text-gray-500 text-sm leading-relaxed">Gemeinsame Erarbeitung eines individuellen Präventionsplans: Lebensstil, Ernährung, Medikation.</p>
+            <div class="bg-surface rounded-xl p-6 relative overflow-hidden">
+              <div class="step-num">4</div>
+              <div class="relative z-10">
+                <div class="text-brand font-sans font-semibold text-xs tracking-[0.15em] uppercase mb-3">Schritt 4</div>
+                <h4 class="font-heading text-ink text-base mb-2 leading-snug">Interventionsstrategie</h4>
+                <p class="text-ink/55 text-sm leading-relaxed font-sans">Gemeinsame Erarbeitung eines Präventionsplans: Lebensstil, Ernährung, Medikation.</p>
+              </div>
             </div>
 
           </div>
@@ -604,9 +758,9 @@
 
         <!-- CTA -->
         <div class="text-center mt-12 animate-on-scroll">
-          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-heading font-bold px-8 py-4 rounded-full hover:bg-brand-dark transition-all hover:shadow-lg hover:-translate-y-0.5 transform">
+          <a href="#kontakt" class="inline-flex items-center gap-2 bg-brand text-white font-sans font-medium px-8 py-4 rounded-lg hover:bg-brand-dark transition-all tracking-wide btn-primary">
             Herz-Checkup vereinbaren
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </a>
@@ -618,22 +772,26 @@
     <!-- ============================================================
          5. KONTAKT & TERMIN
     ============================================================ -->
-    <section id="kontakt" class="py-20 lg:py-28 bg-gray-50" aria-labelledby="kontakt-heading">
+    <section id="kontakt" class="py-20 lg:py-28" aria-labelledby="kontakt-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Section heading -->
         <div class="text-center mb-14 animate-on-scroll">
-          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Schreiben Sie uns</span>
-          <h2 id="kontakt-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">Kontakt &amp; Termin</h2>
-          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
-          <p class="mt-5 text-gray-600 max-w-xl mx-auto">Kontaktieren Sie uns per Formular oder vereinbaren Sie direkt online einen Termin über den Kalender.</p>
+          <span class="section-label">Schreiben Sie uns</span>
+          <h2 id="kontakt-heading" class="font-heading text-ink text-4xl sm:text-5xl">Kontakt &amp; Termin</h2>
+          <p class="mt-5 text-ink/55 max-w-xl mx-auto font-sans">Kontaktieren Sie uns per Formular oder vereinbaren Sie direkt online einen Termin über den Kalender.</p>
+        </div>
+
+        <!-- Team Photo -->
+        <div class="flex justify-center mb-12 animate-on-scroll">
+          <img src="personal.jpeg" alt="Team der Kardiologischen Privatpraxis Tübingen" class="rounded-2xl shadow-md w-full max-w-xl object-cover" />
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
 
           <!-- LEFT: Contact Form -->
-          <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 animate-on-scroll">
-            <h3 class="font-heading font-bold text-xl text-gray-800 mb-6">Nachricht senden</h3>
+          <div class="bg-white rounded-xl p-6 sm:p-8 shadow-sm animate-on-scroll">
+            <h3 class="font-heading text-ink text-xl mb-6">Nachricht senden</h3>
 
             <form id="contact-form" novalidate class="space-y-5">
 
@@ -717,7 +875,7 @@
                 <input id="privacy" name="privacy" type="checkbox" required
                        class="mt-0.5 h-4 w-4 rounded border-gray-300 flex-shrink-0"
                        style="accent-color: #00667b" />
-                <label for="privacy" class="text-sm text-gray-600 leading-relaxed">
+                <label for="privacy" class="text-sm text-ink/60 leading-relaxed font-sans">
                   Ich habe die <button type="button" onclick="openModal('datenschutz')" class="text-brand hover:underline font-semibold">Datenschutzerklärung</button> gelesen und bin mit der Verarbeitung meiner Daten einverstanden. <span class="text-brand">*</span>
                 </label>
               </div>
@@ -725,8 +883,8 @@
 
               <!-- Submit Button -->
               <button type="submit" id="submit-btn"
-                      class="w-full bg-brand text-white font-heading font-bold py-4 rounded-xl
-                             hover:bg-brand-dark transition-all hover:shadow-lg
+                      class="w-full bg-brand text-white font-sans font-medium py-4 rounded-lg
+                             hover:bg-brand-dark transition-all tracking-wide btn-primary
                              disabled:opacity-50 disabled:cursor-not-allowed text-sm">
                 Nachricht senden
               </button>
@@ -754,11 +912,11 @@
           <div class="space-y-6 animate-on-scroll">
 
             <!-- Contact info card -->
-            <div class="bg-brand text-white rounded-2xl p-6 sm:p-8 shadow-lg">
-              <h3 class="font-heading font-bold text-xl mb-6">Kontaktinformationen</h3>
+            <div class="bg-ink text-white rounded-xl p-6 sm:p-8 shadow-lg">
+              <h3 class="font-heading text-xl mb-6">Kontaktinformationen</h3>
 
               <!-- Private patient notice -->
-              <div class="bg-white/15 rounded-xl px-4 py-3 mb-6 text-sm font-heading font-semibold text-white flex items-center gap-2">
+              <div class="bg-brand/30 rounded-lg px-4 py-3 mb-6 text-sm font-sans font-medium text-white/90 flex items-center gap-2">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
@@ -774,7 +932,7 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Telefon</div>
+                    <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/40 mb-0.5">Telefon</div>
                     <a href="tel:+4970717 3564" class="font-semibold hover:underline">07071-73564</a>
                   </div>
                 </div>
@@ -786,7 +944,7 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Fax</div>
+                    <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/40 mb-0.5">Fax</div>
                     <span class="font-semibold">07071-9669959</span>
                   </div>
                 </div>
@@ -798,7 +956,7 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">E-Mail</div>
+                    <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/40 mb-0.5">E-Mail</div>
                     <a href="mailto:praxis@kardio-tuebingen.de" class="font-semibold hover:underline break-all text-sm">praxis@kardio-tuebingen.de</a>
                   </div>
                 </div>
@@ -810,7 +968,7 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Sprechzeiten</div>
+                    <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/40 mb-0.5">Sprechzeiten</div>
                     <div class="font-semibold">Dienstag 17–20 Uhr</div>
                     <div class="text-white/80 text-sm">+ nach Vereinbarung</div>
                   </div>
@@ -824,7 +982,7 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="text-xs font-heading font-bold uppercase tracking-widest text-white/60 mb-0.5">Adresse</div>
+                    <div class="text-[10px] font-sans font-medium uppercase tracking-[0.15em] text-white/40 mb-0.5">Adresse</div>
                     <div class="font-semibold">Poststraße 2-4, 2. Stock</div>
                     <div class="text-white/80 text-sm">72072 Tübingen</div>
                     <div class="text-white/60 text-xs mt-0.5">c/o Praxis Dres. Wielander/Federle</div>
@@ -834,19 +992,11 @@
               </div>
             </div>
 
-            <!-- Practice image -->
-            <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-              <img src="https://www.kardio-tuebingen.de/wp-content/uploads/go-x/u/d66e9dcc-51cd-4cea-bd04-336672aff49c/l129,t2,w1631,h1413/image-768x665.jpg"
-                   alt="Praxis Standort Poststraße 2-4 Tübingen"
-                   class="w-full h-56 object-cover"
-                   loading="lazy" />
-            </div>
-
             <!-- Google Calendar Embed -->
-            <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-1 px-1">Online-Terminbuchung</h3>
-              <p class="text-gray-500 text-xs px-1 mb-4">Freie Termine direkt im Kalender wählen</p>
-              <div class="calendar-wrapper rounded-xl overflow-hidden bg-gray-50">
+            <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+              <h3 class="font-heading text-ink text-lg mb-1 px-1">Online-Terminbuchung</h3>
+              <p class="text-ink/45 text-xs px-1 mb-4 font-sans">Freie Termine direkt im Kalender wählen</p>
+              <div class="calendar-wrapper rounded-xl overflow-hidden bg-surface">
                 <iframe
                   src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0xfFZXLOT-o3tLRyDVyt3NlIu-S7VLJQ8grHyqBPeWN7XGm_PmnYxJ42ASEjpaRNfEIYb4ozHq?gv=true"
                   style="border: 0; width: 100%; height: 1100px;"
@@ -862,22 +1012,276 @@
     </section>
 
     <!-- ============================================================
+         6. KARDIO-NEWS
+    ============================================================ -->
+    <section id="kardio-news" class="py-20 lg:py-28 bg-surface" aria-labelledby="kardio-news-heading">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-14 animate-on-scroll">
+          <span class="section-label">Wissenschaft aktuell</span>
+          <h2 id="kardio-news-heading" class="font-heading text-ink text-4xl sm:text-5xl">Kardio-News</h2>
+          <p class="mt-4 text-ink/60 font-sans text-base max-w-2xl mx-auto">Die wichtigsten kardiologischen Studien des Monats — kuratiert und kommentiert. Klicken Sie auf einen Beitrag für die vollständige Zusammenfassung.</p>
+          <p class="mt-2 text-ink/40 font-sans text-xs">Quellen: NEJM, Lancet, JAMA, European Heart Journal, Circulation, JACC u. a. · Zusammenfassungen redaktionell erstellt · keine Reproduktion urheberrechtlich geschützter Originaltexte</p>
+        </div>
+
+        <!-- Newspaper masthead -->
+        <div class="border-t-4 border-b-2 border-ink py-3 mb-8 flex flex-wrap items-center justify-between gap-2">
+          <span class="font-heading text-ink/40 text-xs uppercase tracking-widest">Kardiologischer Monats-Digest</span>
+          <span class="font-sans text-ink/40 text-xs">März 2026 · ACC.26 Kongressausgabe</span>
+          <span class="font-sans text-ink/40 text-xs hidden sm:block">10 Originalarbeiten</span>
+        </div>
+
+        <!-- News grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-l border-t border-ink/10">
+
+          <!-- Article 1 - HI-PEITHO (featured) -->
+          <div class="md:col-span-2 lg:col-span-2 border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-1')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-brand text-white text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Highlight</span>
+              <span class="text-ink/40 font-sans text-xs">NEJM · Lungenembolie</span>
+            </div>
+            <h3 class="font-heading text-ink text-xl sm:text-2xl leading-tight mb-2 group-hover:text-brand transition-colors">Kathetergestützte Fibrinolyse bei Lungenembolie erstmals randomisiert belegt</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die HI-PEITHO-Studie zeigt erstmals randomisiert, dass ultraschallgestützte kathetergestützte Fibrinolyse bei intermediär-hochrisiko Lungenembolie kardiorespiratorische Komplikationen gegenüber alleiniger Antikoagulation um über 60 % reduziert.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium group-hover:gap-3 transition-all">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-1" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Journal:</strong> New England Journal of Medicine (IF ~90) · Konstantinides SV et al.</p>
+                <p><strong class="text-ink">Fragestellung:</strong> 544 Patienten mit intermediär-hochrisiko-LE (RV-Dysfunktion + erhöhte Troponine) wurden zu ultraschallgestützter kathetergesteuerter Fibrinolyse plus Antikoagulation vs. alleiniger Antikoagulation randomisiert.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Primärer Endpunkt (PE-bedingter Tod, kardiorespiratorische Dekompensation oder Rezidiv innerhalb 30 Tage) um &gt;60 % reduziert. Keine intrakraniellen Blutungen in beiden Gruppen.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erste randomisierte Evidenz für kathetergestützte Therapie bei intermediär-hochrisiko-LE — Leitlinienänderung hin zu Klasse-I-Empfehlung erwartet. Die Technik ist allerdings auf spezialisierte Zentren beschränkt.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 2 - CHAMPION-AF -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-2')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">ACC.26</span>
+              <span class="text-ink/40 font-sans text-xs">Vorhofflimmern</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CHAMPION-AF: Vorhofohrverschluss nicht unterlegen gegenüber NOAK</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">3.000 Patienten zeigen: WATCHMAN FLX ist bei Schlaganfallschutz nicht unterlegen — und reduziert Blutungen signifikant.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-2" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 3.000 Patienten mit nicht-valvulärem VHF und CHA₂DS₂-VASc ≥2, 1:1 LAAO vs. NOAK, 3 Jahre Follow-up, 141 Zentren weltweit.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Schlaganfall/systemische Embolie: LAAO 5,7 % vs. NOAK 4,8 % — Nicht-Unterlegenheit erfüllt. Nicht-prozedurbezogene Blutungen: 10,9 % vs. 19,0 % (HR 0,55; p &lt;0,001).</p>
+                <p><strong class="text-ink">Relevanz:</strong> Größte LAAO-Studie bisher; erstmals Nicht-Unterlegenheitsdaten ohne zwingende OAK-Kontraindikation. Signifikante Blutungsreduktion ist klinisch bedeutsam, kein Überlegenheitsnachweis beim Schlaganfallschutz.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 3 - CLOSURE-AF -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-3')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+              <span class="text-ink/40 font-sans text-xs">Vorhofflimmern</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CLOSURE-AF: Vorhofohrverschluss verfehlt Nicht-Unterlegenheit</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Gegensätzlich zu CHAMPION-AF: In einer deutschen Hochrisikostudie war LAAO der medikamentösen Therapie nicht überlegen.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-3" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 912 Patienten, CHA₂DS₂-VASc 5,2 und HAS-BLED 3,0, LAAO vs. beste medikamentöse Therapie, 3 Jahre Follow-up (Deutschland).</p>
+                <p><strong class="text-ink">Ergebnis:</strong> 16,8 vs. 13,3 Ereignisse/100 Patientenjahre — Nicht-Unterlegenheitsgrenze nicht erreicht.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Konträr zu CHAMPION-AF; höheres Ausgangsrisiko und europäisches Kontrollregime könnten Unterschiede erklären. Die Leitliniendebatte wird sich erheblich verkomplizieren.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 4 - SirPAD -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-4')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+              <span class="text-ink/40 font-sans text-xs">pAVK · Intervention</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">SirPAD: Sirolimus-Ballon überlegen bei peripherer Arterienerkrankung</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Sirolimus-beschichtete Ballonkatheter reduzierten schwere Extremitätenereignisse bei pAVK signifikant gegenüber unbeschichteten Ballons.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-4" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 1.252 Patienten, femoropopliteale/infrapopliteale pAVK, Sirolimus-Ballon vs. unbeschichteter Ballon, 1 Jahr Follow-up.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> MALE: 8,8 % vs. 15,0 % — sowohl Nicht-Unterlegenheit als auch Überlegenheit erreicht.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Weltweit größte RCT für Drug-Coated-Ballons bei pAVK; Sirolimus als sicherere Alternative zu Paclitaxel; zulassungsrelevante Daten erwartet.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 5 - VESALIUS-CV -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-5')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+              <span class="text-ink/40 font-sans text-xs">Prävention · Lipide</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">VESALIUS-CV: Evolocumab wirksam in der Hochrisiko-Primärprävention</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">PCSK9-Inhibition reduzierte MACE um 28 % bei Hochrisikopatienten ohne vorherigen Herzinfarkt oder Schlaganfall.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-5" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> ~12.000 Patienten mit hohem KV-Risiko ohne vorherigen MI/Schlaganfall, Evolocumab vs. Plazebo, medianes Follow-up ~4,8 Jahre.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> 4-Punkte-MACE: 7,6 % vs. 10,5 % (–28 %); Gesamtmortalität: 7,8 % vs. 10,1 %.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erste Studie mit Evolocumab in der erweiterten Primärprävention; öffnet Tür für PCSK9-Inhibitoren jenseits der Sekundärprävention. Kosteneffektivitätsanalysen stehen aus.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 6 - STEMI-DTU -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-6')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-red-50 text-red-500 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Negativstudie</span>
+              <span class="text-ink/40 font-sans text-xs">Herzinfarkt</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">STEMI-DTU: Impella vor PCI ohne Nutzen — erhöhtes Blutungsrisiko</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Mechanische Kreislaufunterstützung mit Impella vor PCI beim nicht-schocktragenden anterioren STEMI reduziert die Infarktgröße nicht — erhöht aber das Komplikationsrisiko deutlich.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-6" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 527 Patienten, anteriorer STEMI ohne kardiogenen Schock, Impella CP + 30 min Verzögerung vor PCI vs. sofortige Standard-PCI, 55 Zentren.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Infarktgröße im MRT: 30,8 % vs. 31,9 % — kein Unterschied. Schwere Blutungs-/Gefäßkomplikationen: 34 % vs. 6 % (stark erhöht unter Impella).</p>
+                <p><strong class="text-ink">Relevanz:</strong> Klarer Negativbefund; die radiale PCI bleibt Standard of Care. Impella hat außerhalb des kardiogenen Schocks keine Indikation beim STEMI.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 7 - SPIRIT-HF -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-7')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-red-50 text-red-500 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Negativstudie</span>
+              <span class="text-ink/40 font-sans text-xs">Herzinsuffizienz</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">SPIRIT-HF: Spironolacton ohne signifikanten Nutzen bei HFpEF</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Trotz pharmakologischer Plausibilität zeigt Spironolacton bei HFpEF/HFmrEF keinen signifikanten Vorteil und ist mit mehr Nebenwirkungen verbunden.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-7" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-7" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 730 Patienten (78 Jahre, 50 % Frauen) mit HFpEF/HFmrEF, Spironolacton vs. Plazebo, 24 Monate, 4 europäische Länder.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Primärer Endpunkt: 10,8 vs. 12,7 Ereignisse/100 Patientenjahre — kein signifikanter Unterschied. Erhöhte Hyperkaliämie- und Nierenereignisrate unter Spironolacton.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Gepoolte Metaanalyse mit TOPCAT-Amerika bestätigt keinen Gesamtnutzen. Die Klasse-IIb-Empfehlung in den ESC-Leitlinien wird zur Diskussion stehen.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 8 - CADENCE -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-8')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Circulation</span>
+              <span class="text-ink/40 font-sans text-xs">Pulmonale Hypertonie</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CADENCE: Sotatercept verbessert pulmonalen Widerstand bei HFpEF-assoziierter PH</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Erster Proof-of-Concept für eine gezielte Pharmakotherapie bei kombinierter post- und präkapillärer pulmonaler Hypertonie infolge HFpEF.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-8" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> Phase-2-RCT, 164 Patienten (75 Jahre, 70 % Frauen) mit HFpEF und schwerer CpcPH, Sotatercept 0,3 oder 0,7 mg/kg vs. Plazebo, 24 Wochen.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> PVR-Reduktion: –1,02 bzw. –0,75 Wood-Einheiten vs. Plazebo. Verbesserte Gehstrecke, RV-Funktion und klinische Verschlechterungsereignisse.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erste gezielte Pharmakotherapie für CpcPH-HFpEF; Phase-3-Studie in Planung. Einschränkung: kurzes Follow-up, kleine Fallzahl.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 9 - ORBITA-CTO -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-9')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">JACC</span>
+              <span class="text-ink/40 font-sans text-xs">KHK · Intervention</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">ORBITA-CTO: CTO-PCI lindert Angina pectoris randomisiert nachgewiesen</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die erste sham-kontrollierte Studie zur CTO-PCI zeigt einen echten, wenn auch moderaten, symptomatischen Nutzen bei stabiler Angina.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-9" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-9" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 50 Patienten mit Einzelgefäß-CTO und stabiler Angina, CTO-PCI vs. Scheineingriff (sham-kontrolliert), Imperial College London.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Angina-Score: OR 4,38 (95 %-KrI 1,57–12,69); 30,6 mehr angina-freie Tage unter CTO-PCI vs. Plazebo.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erster randomisierter Nachweis eines echten Symptomnutzens durch CTO-PCI. Keine prognostischen Endpunkte; sehr kleine Fallzahl — kein Beleg für Mortalitätsreduktion.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Article 10 - LAAO + Ablation -->
+          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-10')">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+              <span class="text-ink/40 font-sans text-xs">Vorhofflimmern · Ablation</span>
+            </div>
+            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">Kombinierter LAAO + VHF-Ablation reduziert Schlaganfallrisiko</h3>
+            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die simultane Vorhofohrverschluss-Implantation während VHF-Ablation war mit signifikant weniger Schlaganfällen verbunden als Ablation allein.</p>
+            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
+              <span>Zusammenfassung lesen</span>
+              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div id="news-10" class="hidden mt-4 pt-4 border-t border-ink/10">
+              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> Patienten mit symptomatischem VHF, geplante Katheterablation, 1:1 kombinierter Eingriff (LAAO + Ablation) vs. Ablation allein.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Signifikante Reduktion von Schlaganfall und systemischer Embolie im kombinierten Arm bei vergleichbarer prozeduraler Sicherheit.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Für Ablationspatienten mit hohem Blutungsrisiko könnte ein kombinierter Eingriff die lebenslange OAK ersetzen. Ergänzt die LAAO-Evidenz aus CHAMPION-AF und CLOSURE-AF.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end grid -->
+
+        <p class="mt-6 text-center text-xs text-ink/30 font-sans">Die Zusammenfassungen basieren auf öffentlich zugänglichen Abstracts, Pressemitteilungen und Kongressberichten. Es werden keine Originaltexte der Verlage reproduziert.</p>
+
+      </div>
+    </section>
+
+    <script>
+    function toggleNews(id) {
+      const el = document.getElementById(id);
+      const chevron = document.getElementById('chevron-' + id);
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+        if (chevron) chevron.style.transform = 'rotate(180deg)';
+      } else {
+        el.classList.add('hidden');
+        if (chevron) chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+    </script>
+
+    <!-- ============================================================
          6. ANFAHRT
     ============================================================ -->
-    <section id="anfahrt" class="py-20 lg:py-28 bg-white" aria-labelledby="anfahrt-heading">
+    <section id="anfahrt" class="py-20 lg:py-28" aria-labelledby="anfahrt-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <!-- Section heading -->
         <div class="text-center mb-14 animate-on-scroll">
-          <span class="text-brand font-heading font-bold text-xs uppercase tracking-widest">Standort</span>
-          <h2 id="anfahrt-heading" class="font-heading font-extrabold text-gray-800 text-3xl sm:text-4xl mt-2">So finden Sie uns</h2>
-          <div class="mt-4 mx-auto w-14 h-1 bg-brand rounded-full"></div>
+          <span class="section-label">Standort</span>
+          <h2 id="anfahrt-heading" class="font-heading text-ink text-4xl sm:text-5xl">So finden Sie uns</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-on-scroll">
 
           <!-- Map (2/3) -->
-          <div class="lg:col-span-2 rounded-2xl overflow-hidden shadow-lg h-80 sm:h-96 lg:h-[480px]">
+          <div class="lg:col-span-2 rounded-xl overflow-hidden shadow-lg h-80 sm:h-96 lg:h-[480px]">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2641.176!2d9.0530!3d48.5209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4799f1c5caf38a6f%3A0xf3a5e837b56b12b8!2sPoststra%C3%9Fe%202-4%2C%2072072%20T%C3%BCbingen!5e0!3m2!1sde!2sde!4v1"
               width="100%"
@@ -894,11 +1298,11 @@
           <div class="space-y-5">
 
             <!-- Address card -->
-            <div class="bg-brand-light rounded-2xl p-6">
-              <h3 class="font-heading font-bold text-brand text-lg mb-4">Adresse</h3>
-              <address class="not-italic text-gray-700 space-y-1 text-sm leading-relaxed">
-                <div class="font-bold text-gray-800">Dr. med. Roland Tegtmeyer</div>
-                <div class="text-gray-500">Kardiologische Privatpraxis</div>
+            <div class="bg-brand-light rounded-xl p-6">
+              <h3 class="font-heading text-brand text-lg mb-4">Adresse</h3>
+              <address class="not-italic text-ink/70 space-y-1 text-sm leading-relaxed font-sans">
+                <div class="font-semibold text-ink">Dr. med. Roland Tegtmeyer</div>
+                <div class="text-ink/50">Kardiologische Privatpraxis</div>
                 <div class="pt-2 font-semibold">Poststraße 2-4</div>
                 <div class="font-semibold">72072 Tübingen</div>
               </address>
@@ -913,10 +1317,42 @@
               </a>
             </div>
 
+            <!-- Sprechzeiten card -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-brand/10">
+              <h3 class="font-heading text-ink text-lg mb-4">Sprechzeiten</h3>
+              <table class="w-full text-sm font-sans">
+                <tbody class="divide-y divide-brand/10">
+                  <tr>
+                    <td class="py-2 font-medium text-ink pr-4">Montag</td>
+                    <td class="py-2 text-ink/50">geschlossen</td>
+                  </tr>
+                  <tr class="bg-brand-light/50">
+                    <td class="py-2 font-semibold text-brand pr-4">Dienstag</td>
+                    <td class="py-2 font-semibold text-brand">17:00 – 20:00 Uhr</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 font-medium text-ink pr-4">Mi – Fr</td>
+                    <td class="py-2 text-ink/50">geschlossen</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 font-medium text-ink pr-4">Samstag</td>
+                    <td class="py-2 text-ink/50">geschlossen</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="mt-4 text-xs text-ink/50 font-sans leading-relaxed">Weitere Termine außerhalb der Sprechstunde sind nach individueller Vereinbarung möglich.</p>
+              <a href="tel:+4970717 3564" class="inline-flex items-center gap-2 mt-4 bg-brand text-white font-sans font-medium text-sm px-4 py-2.5 rounded-lg hover:bg-brand-dark transition-colors btn-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                07071-73564
+              </a>
+            </div>
+
             <!-- Transport -->
-            <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-              <h3 class="font-heading font-bold text-gray-800 text-lg mb-4">Wegbeschreibung</h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-5">Sie finden uns im Herzen Tübingens in unmittelbarer Nähe des Bahnhofes neben dem Restaurant „Burgermeister". Die Praxis befindet sich räumlich in der hausärztlichen Praxis Dres. Wielander/Federle.</p>
+            <div class="bg-surface rounded-xl p-6 shadow-sm">
+              <h3 class="font-heading text-ink text-lg mb-4">Wegbeschreibung</h3>
+              <p class="text-ink/60 text-sm leading-relaxed mb-5 font-sans">Sie finden uns im Herzen Tübingens in unmittelbarer Nähe des Bahnhofes neben dem Restaurant „Burgermeister". Die Praxis befindet sich in der hausärztlichen Praxis Dres. Wielander/Federle.</p>
               <div class="space-y-5">
 
                 <!-- Car -->
@@ -927,8 +1363,8 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="font-heading font-bold text-gray-800 text-sm mb-0.5">Mit dem Auto</div>
-                    <p class="text-gray-500 text-xs leading-relaxed">Bei Anfahrt über die B28 und der blauen Brücke: direkt vor dem Haus parken (Parkschein) oder im Parkhaus Post am Europaplatz. Alternativ Bahnhofsgarage (ca. 5 Min. Fußweg).</p>
+                    <div class="font-sans font-semibold text-ink text-sm mb-0.5">Mit dem Auto</div>
+                    <p class="text-ink/50 text-xs leading-relaxed font-sans">Bei Anfahrt über die B28 und der blauen Brücke: direkt vor dem Haus parken (Parkschein) oder im Parkhaus Post am Europaplatz. Alternativ Bahnhofsgarage (ca. 5 Min. Fußweg).</p>
                   </div>
                 </div>
 
@@ -940,8 +1376,8 @@
                     </svg>
                   </div>
                   <div>
-                    <div class="font-heading font-bold text-gray-800 text-sm mb-0.5">Mit Bus &amp; Bahn</div>
-                    <p class="text-gray-500 text-xs leading-relaxed">Ausstieg Bahnhof Tübingen — wenige Gehminuten entfernt.</p>
+                    <div class="font-sans font-semibold text-ink text-sm mb-0.5">Mit Bus &amp; Bahn</div>
+                    <p class="text-ink/50 text-xs leading-relaxed font-sans">Ausstieg Bahnhof Tübingen — wenige Gehminuten entfernt.</p>
                   </div>
                 </div>
 
@@ -958,7 +1394,7 @@
   <!-- ============================================================
        FOOTER
   ============================================================ -->
-  <footer class="bg-gray-900 text-gray-300" aria-label="Footer">
+  <footer class="bg-ink text-white/60" aria-label="Footer">
 
     <!-- Main footer -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -969,35 +1405,35 @@
           <div class="mb-4">
             <img src="Logo.png"
                  alt="Dr. med. Roland Tegtmeyer – Kardiologie Tübingen"
-                 class="h-24 w-auto object-contain" />
+                 class="h-16 w-auto object-contain" />
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+          <p class="text-white/40 text-sm leading-relaxed max-w-xs font-sans">
             Kardiologische Privatpraxis im Herzen von Tübingen. Persönliche Betreuung mit modernster Diagnostik und engem Kontakt zur Uniklinik.
           </p>
         </div>
 
         <!-- Navigation -->
         <div>
-          <h4 class="font-heading font-bold text-white text-sm uppercase tracking-widest mb-5">Navigation</h4>
-          <ul class="space-y-2.5 text-sm">
-            <li><a href="#startseite" class="text-gray-400 hover:text-brand transition-colors">Startseite</a></li>
-            <li><a href="#ueber-mich" class="text-gray-400 hover:text-brand transition-colors">Über mich</a></li>
-            <li><a href="#leistungen" class="text-gray-400 hover:text-brand transition-colors">Leistungen</a></li>
-            <li><a href="#praevention" class="text-gray-400 hover:text-brand transition-colors">Prävention</a></li>
-            <li><a href="#kontakt" class="text-gray-400 hover:text-brand transition-colors">Kontakt &amp; Termin</a></li>
-            <li><a href="#anfahrt" class="text-gray-400 hover:text-brand transition-colors">Anfahrt</a></li>
+          <h4 class="font-sans font-medium text-white/30 text-xs uppercase tracking-[0.15em] mb-5">Navigation</h4>
+          <ul class="space-y-2.5 text-sm font-sans">
+            <li><a href="#startseite" class="text-white/50 hover:text-brand transition-colors">Startseite</a></li>
+            <li><a href="#ueber-mich" class="text-white/50 hover:text-brand transition-colors">Über mich</a></li>
+            <li><a href="#leistungen" class="text-white/50 hover:text-brand transition-colors">Leistungen</a></li>
+            <li><a href="#praevention" class="text-white/50 hover:text-brand transition-colors">Prävention</a></li>
+            <li><a href="#kontakt" class="text-white/50 hover:text-brand transition-colors">Kontakt &amp; Termin</a></li>
+            <li><a href="#anfahrt" class="text-white/50 hover:text-brand transition-colors">Anfahrt</a></li>
           </ul>
         </div>
 
         <!-- Contact -->
         <div>
-          <h4 class="font-heading font-bold text-white text-sm uppercase tracking-widest mb-5">Kontakt</h4>
-          <ul class="space-y-2.5 text-sm text-gray-400">
+          <h4 class="font-sans font-medium text-white/30 text-xs uppercase tracking-[0.15em] mb-5">Kontakt</h4>
+          <ul class="space-y-2.5 text-sm text-white/50 font-sans">
             <li>Poststraße 2-4</li>
             <li>72072 Tübingen</li>
             <li class="pt-1"><a href="tel:+4970717 3564" class="hover:text-brand transition-colors">07071-73564</a></li>
             <li><a href="mailto:praxis@kardio-tuebingen.de" class="hover:text-brand transition-colors break-all">praxis@kardio-tuebingen.de</a></li>
-            <li class="pt-1 text-gray-500 text-xs">Di 17–20 Uhr &amp; nach Vereinbarung</li>
+            <li class="pt-1 text-white/30 text-xs">Di 17–20 Uhr &amp; nach Vereinbarung</li>
           </ul>
         </div>
 
@@ -1005,8 +1441,8 @@
     </div>
 
     <!-- Bottom bar -->
-    <div class="border-t border-gray-800">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+    <div class="border-t border-white/8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/25 font-sans">
         <span>&copy; 2026 Dr. med. Roland Tegtmeyer. Alle Rechte vorbehalten.</span>
         <div class="flex items-center gap-6">
           <button type="button" onclick="openModal('impressum')" class="hover:text-brand transition-colors">Impressum</button>
@@ -1026,9 +1462,9 @@
        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 modal-backdrop bg-black/60">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
       <div class="sticky top-0 bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between rounded-t-2xl">
-        <h2 id="impressum-title" class="font-heading font-bold text-xl text-gray-800">Impressum</h2>
+        <h2 id="impressum-title" class="font-heading text-xl text-ink">Impressum</h2>
         <button type="button" onclick="closeModal('impressum')"
-                class="text-gray-400 hover:text-gray-600 p-2 rounded-xl hover:bg-gray-100 transition-colors"
+                class="text-ink/40 hover:text-ink p-2 rounded-lg hover:bg-surface transition-colors"
                 aria-label="Impressum schließen">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -1082,9 +1518,9 @@
        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 modal-backdrop bg-black/60">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
       <div class="sticky top-0 bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between rounded-t-2xl">
-        <h2 id="datenschutz-title" class="font-heading font-bold text-xl text-gray-800">Datenschutzerklärung</h2>
+        <h2 id="datenschutz-title" class="font-heading text-xl text-ink">Datenschutzerklärung</h2>
         <button type="button" onclick="closeModal('datenschutz')"
-                class="text-gray-400 hover:text-gray-600 p-2 rounded-xl hover:bg-gray-100 transition-colors"
+                class="text-ink/40 hover:text-ink p-2 rounded-lg hover:bg-surface transition-colors"
                 aria-label="Datenschutz schließen">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -1167,9 +1603,9 @@
 
     const handleScroll = () => {
       if (window.scrollY > 60) {
-        header.classList.add('bg-white', 'shadow-md');
+        header.classList.add('header-scrolled');
       } else {
-        header.classList.remove('bg-white', 'shadow-md');
+        header.classList.remove('header-scrolled');
       }
     };
 
@@ -1322,7 +1758,200 @@
         });
       }
     });
+
+    // ── Scroll Video Scrub ────────────────────────────────────────
+    (function () {
+      const section   = document.getElementById('video-scroll');
+      const video     = document.getElementById('scroll-video');
+      const progressBar = document.getElementById('video-progress');
+      const phases    = document.querySelectorAll('.video-text-phase');
+      const dots      = document.querySelectorAll('.video-phase-dot');
+
+      if (!section || !video) return;
+
+      const NUM_PHASES = phases.length;
+      let   ticking   = false;
+      let   lastProgress = -1;
+
+      // Ensure video is loaded enough to scrub
+      video.load();
+
+      const update = () => {
+        const sectionTop    = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const vh            = window.innerHeight;
+        const scrolled      = window.scrollY - sectionTop;
+        const maxScroll     = sectionHeight - vh;
+
+        // progress: 0 (section enters) → 1 (section leaves)
+        const progress = Math.max(0, Math.min(1, scrolled / maxScroll));
+
+        if (Math.abs(progress - lastProgress) < 0.001) {
+          ticking = false;
+          return;
+        }
+        lastProgress = progress;
+
+        // Scrub video
+        if (video.readyState >= 2 && video.duration) {
+          video.currentTime = progress * video.duration;
+        }
+
+        // Progress bar
+        progressBar.style.width = (progress * 100) + '%';
+
+        // Text phases — split into 4 equal bands
+        // Give each phase a slight overlap window for smoother transitions
+        const rawPhase = progress * NUM_PHASES;
+        const activePhase = Math.min(Math.floor(rawPhase), NUM_PHASES - 1);
+
+        phases.forEach((el, i) => {
+          el.classList.toggle('active', i === activePhase);
+        });
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === activePhase);
+        });
+
+        ticking = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Run once on load in case page is scrolled
+      update();
+    })();
+
+    // ── Section Background Parallax ───────────────────────────────
+    (function () {
+      const sections = [
+        document.getElementById('ueber-mich'),
+        document.getElementById('kontakt'),
+      ].filter(Boolean);
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let ticking = false;
+
+      const update = () => {
+        const vh = window.innerHeight;
+        sections.forEach(section => {
+          const bg = section.querySelector('.section-bg-img');
+          if (!bg) return;
+          const rect = section.getBoundingClientRect();
+          // How far the section top is from viewport bottom (0) to viewport top (1)
+          const progress = 1 - (rect.bottom / (rect.height + vh));
+          // Shift between -60px and +60px
+          const shift = (progress - 0.5) * 120;
+          bg.style.transform = `translateY(${shift}px)`;
+        });
+        ticking = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+
+      update();
+    })();
+
+    // ── Dotted Surface (Three.js) ─────────────────────────────────
+    (function () {
+      if (!window.THREE) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const container = document.getElementById('dotted-surface');
+      if (!container) return;
+
+      const SEPARATION = 150, AMOUNTX = 40, AMOUNTY = 60;
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0xf7f6f3, 2000, 10000);
+
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
+      camera.position.set(0, 355, 1220);
+
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      container.appendChild(renderer.domElement);
+
+      const positions = [];
+      const colors = [];
+      for (let ix = 0; ix < AMOUNTX; ix++) {
+        for (let iy = 0; iy < AMOUNTY; iy++) {
+          positions.push(ix * SEPARATION - (AMOUNTX * SEPARATION) / 2, 0, iy * SEPARATION - (AMOUNTY * SEPARATION) / 2);
+          colors.push(0, 102 / 255, 123 / 255); // brand color #00667b
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+      const material = new THREE.PointsMaterial({ size: 6, vertexColors: true, transparent: true, opacity: 0.45, sizeAttenuation: true });
+      const points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      let count = 0;
+      let animId;
+
+      const animate = () => {
+        animId = requestAnimationFrame(animate);
+        const pos = geometry.attributes.position.array;
+        let i = 0;
+        for (let ix = 0; ix < AMOUNTX; ix++) {
+          for (let iy = 0; iy < AMOUNTY; iy++) {
+            pos[i * 3 + 1] = Math.sin((ix + count) * 0.3) * 50 + Math.sin((iy + count) * 0.5) * 50;
+            i++;
+          }
+        }
+        geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+        count += 0.07;
+      };
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }, { passive: true });
+
+      animate();
+    })();
+
+    // ── Parallax Hero ─────────────────────────────────────────────
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let ticking = false;
+      let lastScroll = 0;
+
+      const updateParallax = () => {
+        // Move background at 40% of scroll speed for depth effect
+        const offset = lastScroll * 0.4;
+        heroBg.style.transform = `translateY(${offset}px) scale(1.1)`;
+        ticking = false;
+      };
+
+      // Set initial scale so no white edges appear during parallax
+      heroBg.style.transform = 'translateY(0px) scale(1.1)';
+
+      window.addEventListener('scroll', () => {
+        lastScroll = window.scrollY;
+        if (!ticking) {
+          requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      }, { passive: true });
+    }
   </script>
+
+  </div><!-- /page content wrapper -->
 
 </body>
 </html>
