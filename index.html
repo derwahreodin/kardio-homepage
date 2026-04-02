@@ -1014,240 +1014,331 @@
     <!-- ============================================================
          6. KARDIO-NEWS
     ============================================================ -->
-    <section id="kardio-news" class="py-20 lg:py-28 bg-surface" aria-labelledby="kardio-news-heading">
+    <style>
+      /* News card hover animations */
+      .news-card {
+        position: relative;
+        background: #fff;
+        transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+      .news-card:hover {
+        box-shadow: 0 8px 32px rgba(0,102,123,0.10), 0 2px 8px rgba(0,102,123,0.06);
+        transform: translateY(-3px);
+        border-left-color: #00667b;
+        z-index: 2;
+      }
+      .news-card.featured:hover {
+        border-left-color: #00667b;
+        box-shadow: 0 12px 40px rgba(0,102,123,0.14), 0 2px 8px rgba(0,102,123,0.08);
+      }
+      .news-card .card-title {
+        transition: color 0.2s ease;
+      }
+      .news-card:hover .card-title {
+        color: #00667b;
+      }
+      .news-card .read-more-arrow {
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+      .news-card:hover .read-more-arrow {
+        transform: translateX(4px);
+      }
+      /* Smooth expand animation */
+      .news-expand {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+        opacity: 0;
+      }
+      .news-expand.open {
+        max-height: 600px;
+        opacity: 1;
+      }
+      .news-chevron-icon {
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+        flex-shrink: 0;
+      }
+      .news-chevron-icon.rotated {
+        transform: rotate(180deg);
+      }
+      /* Masthead ornament */
+      .masthead-ornament {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .masthead-ornament::before,
+      .masthead-ornament::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.2;
+      }
+      /* Tag pulse on featured */
+      @keyframes tag-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+      .tag-highlight { animation: tag-pulse 2.5s ease-in-out infinite; }
+    </style>
+
+    <section id="kardio-news" class="py-20 lg:py-28" style="background: #f9f7f4;" aria-labelledby="kardio-news-heading">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="text-center mb-14 animate-on-scroll">
+        <!-- Section header -->
+        <div class="text-center mb-12 animate-on-scroll">
           <span class="section-label">Wissenschaft aktuell</span>
           <h2 id="kardio-news-heading" class="font-heading text-ink text-4xl sm:text-5xl">Kardio-News</h2>
-          <p class="mt-4 text-ink/60 font-sans text-base max-w-2xl mx-auto">Die wichtigsten kardiologischen Studien des Monats — kuratiert und kommentiert. Klicken Sie auf einen Beitrag für die vollständige Zusammenfassung.</p>
-          <p class="mt-2 text-ink/40 font-sans text-xs">Quellen: NEJM, Lancet, JAMA, European Heart Journal, Circulation, JACC u. a. · Zusammenfassungen redaktionell erstellt · keine Reproduktion urheberrechtlich geschützter Originaltexte</p>
+          <p class="mt-4 text-ink/60 font-sans text-base max-w-2xl mx-auto">Die wichtigsten kardiologischen Studien des Monats — kuratiert und kommentiert.</p>
         </div>
 
         <!-- Newspaper masthead -->
-        <div class="border-t-4 border-b-2 border-ink py-3 mb-8 flex flex-wrap items-center justify-between gap-2">
-          <span class="font-heading text-ink/40 text-xs uppercase tracking-widest">Kardiologischer Monats-Digest</span>
-          <span class="font-sans text-ink/40 text-xs">März 2026 · ACC.26 Kongressausgabe</span>
-          <span class="font-sans text-ink/40 text-xs hidden sm:block">10 Originalarbeiten</span>
+        <div class="mb-8 border-t-4 border-ink pt-3">
+          <div class="masthead-ornament text-ink mb-1">
+            <span class="font-heading text-ink text-2xl sm:text-3xl tracking-tight text-center">Kardiologischer Monats-Digest</span>
+          </div>
+          <div class="border-t-2 border-ink mt-2 pt-2 flex flex-wrap items-center justify-between gap-2">
+            <span class="font-sans text-ink/40 text-xs uppercase tracking-widest">Ausgabe März 2026</span>
+            <span class="font-sans text-ink/50 text-xs font-medium">ACC.26 · New Orleans · 10 Originalarbeiten</span>
+            <span class="font-sans text-ink/40 text-xs uppercase tracking-widest hidden sm:block">Kardiologie · Innere Medizin</span>
+          </div>
         </div>
 
         <!-- News grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border-l border-t border-ink/10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-          <!-- Article 1 - HI-PEITHO (featured) -->
-          <div class="md:col-span-2 lg:col-span-2 border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-1')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-brand text-white text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Highlight</span>
-              <span class="text-ink/40 font-sans text-xs">NEJM · Lungenembolie</span>
+          <!-- Article 1 - HI-PEITHO (featured, spans 2 cols) -->
+          <div class="news-card featured md:col-span-2 rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-1')">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="tag-highlight bg-brand text-white text-xs font-sans font-bold px-3 py-1 rounded-full uppercase tracking-wide">Highlight</span>
+              <span class="text-ink/40 font-sans text-xs font-medium uppercase tracking-wide">NEJM · Lungenembolie</span>
             </div>
-            <h3 class="font-heading text-ink text-xl sm:text-2xl leading-tight mb-2 group-hover:text-brand transition-colors">Kathetergestützte Fibrinolyse bei Lungenembolie erstmals randomisiert belegt</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die HI-PEITHO-Studie zeigt erstmals randomisiert, dass ultraschallgestützte kathetergestützte Fibrinolyse bei intermediär-hochrisiko Lungenembolie kardiorespiratorische Komplikationen gegenüber alleiniger Antikoagulation um über 60 % reduziert.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium group-hover:gap-3 transition-all">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-1" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Journal:</strong> New England Journal of Medicine (IF ~90) · Konstantinides SV et al.</p>
-                <p><strong class="text-ink">Fragestellung:</strong> 544 Patienten mit intermediär-hochrisiko-LE (RV-Dysfunktion + erhöhte Troponine) wurden zu ultraschallgestützter kathetergesteuerter Fibrinolyse plus Antikoagulation vs. alleiniger Antikoagulation randomisiert.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Primärer Endpunkt (PE-bedingter Tod, kardiorespiratorische Dekompensation oder Rezidiv innerhalb 30 Tage) um &gt;60 % reduziert. Keine intrakraniellen Blutungen in beiden Gruppen.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Erste randomisierte Evidenz für kathetergestützte Therapie bei intermediär-hochrisiko-LE — Leitlinienänderung hin zu Klasse-I-Empfehlung erwartet. Die Technik ist allerdings auf spezialisierte Zentren beschränkt.</p>
+            <div class="flex gap-4">
+              <div class="w-1 rounded-full bg-brand flex-shrink-0 self-stretch opacity-30"></div>
+              <div class="flex-1">
+                <h3 class="card-title font-heading text-ink text-xl sm:text-2xl leading-snug mb-3">Kathetergestützte Fibrinolyse bei Lungenembolie erstmals randomisiert belegt</h3>
+                <p class="font-sans text-ink/60 text-sm leading-relaxed">Die HI-PEITHO-Studie zeigt erstmals randomisiert, dass ultraschallgestützte kathetergestützte Fibrinolyse bei intermediär-hochrisiko Lungenembolie kardiorespiratorische Komplikationen gegenüber alleiniger Antikoagulation um über 60 % reduziert.</p>
+                <button class="flex items-center gap-2 mt-4 text-brand text-xs font-sans font-semibold group/btn">
+                  <span>Zusammenfassung lesen</span>
+                  <svg class="read-more-arrow w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                  <svg class="news-chevron-icon w-4 h-4 ml-1" id="chevron-news-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                </button>
+                <div id="news-1" class="news-expand mt-4">
+                  <div class="pt-4 border-t border-ink/10 space-y-3 font-sans text-sm text-ink/70 leading-relaxed">
+                    <p><strong class="text-ink">Journal:</strong> New England Journal of Medicine (IF ~90) · Konstantinides SV et al.</p>
+                    <p><strong class="text-ink">Fragestellung:</strong> 544 Patienten mit intermediär-hochrisiko-LE (RV-Dysfunktion + erhöhte Troponine) wurden zu ultraschallgestützter kathetergesteuerter Fibrinolyse plus Antikoagulation vs. alleiniger Antikoagulation randomisiert.</p>
+                    <p><strong class="text-ink">Ergebnis:</strong> Primärer Endpunkt (PE-bedingter Tod, kardiorespiratorische Dekompensation oder Rezidiv innerhalb 30 Tage) um &gt;60 % reduziert. Keine intrakraniellen Blutungen in beiden Gruppen.</p>
+                    <p><strong class="text-ink">Relevanz:</strong> Erste randomisierte Evidenz für kathetergestützte Therapie bei intermediär-hochrisiko-LE — Leitlinienänderung hin zu Klasse-I-Empfehlung erwartet. Die Technik ist allerdings auf spezialisierte Zentren beschränkt.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Article 2 - CHAMPION-AF -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-2')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">ACC.26</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-2')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">ACC.26</span>
               <span class="text-ink/40 font-sans text-xs">Vorhofflimmern</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CHAMPION-AF: Vorhofohrverschluss nicht unterlegen gegenüber NOAK</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">3.000 Patienten zeigen: WATCHMAN FLX ist bei Schlaganfallschutz nicht unterlegen — und reduziert Blutungen signifikant.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-2" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 3.000 Patienten mit nicht-valvulärem VHF und CHA₂DS₂-VASc ≥2, 1:1 LAAO vs. NOAK, 3 Jahre Follow-up, 141 Zentren weltweit.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Schlaganfall/systemische Embolie: LAAO 5,7 % vs. NOAK 4,8 % — Nicht-Unterlegenheit erfüllt. Nicht-prozedurbezogene Blutungen: 10,9 % vs. 19,0 % (HR 0,55; p &lt;0,001).</p>
-                <p><strong class="text-ink">Relevanz:</strong> Größte LAAO-Studie bisher; erstmals Nicht-Unterlegenheitsdaten ohne zwingende OAK-Kontraindikation. Signifikante Blutungsreduktion ist klinisch bedeutsam, kein Überlegenheitsnachweis beim Schlaganfallschutz.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">CHAMPION-AF: Vorhofohrverschluss nicht unterlegen gegenüber NOAK</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">3.000 Patienten: WATCHMAN FLX gleichwertig beim Schlaganfallschutz — und reduziert Blutungen signifikant.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-2" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 3.000 Patienten, VHF, CHA₂DS₂-VASc ≥2, 1:1 LAAO vs. NOAK, 3 Jahre, 141 Zentren weltweit.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Schlaganfall/Embolie: 5,7 % vs. 4,8 % — Nicht-Unterlegenheit erfüllt. Blutungen: 10,9 % vs. 19,0 % (HR 0,55; p &lt;0,001).</p>
+                <p><strong class="text-ink">Relevanz:</strong> Größte LAAO-Studie; signifikante Blutungsreduktion, kein Überlegenheitsnachweis beim Schlaganfallschutz.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 3 - CLOSURE-AF -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-3')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-3')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">NEJM</span>
               <span class="text-ink/40 font-sans text-xs">Vorhofflimmern</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CLOSURE-AF: Vorhofohrverschluss verfehlt Nicht-Unterlegenheit</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Gegensätzlich zu CHAMPION-AF: In einer deutschen Hochrisikostudie war LAAO der medikamentösen Therapie nicht überlegen.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-3" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 912 Patienten, CHA₂DS₂-VASc 5,2 und HAS-BLED 3,0, LAAO vs. beste medikamentöse Therapie, 3 Jahre Follow-up (Deutschland).</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">CLOSURE-AF: Vorhofohrverschluss verfehlt Nicht-Unterlegenheit</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Gegensätzlich zu CHAMPION-AF: In einer deutschen Hochrisikostudie war LAAO der medikamentösen Therapie nicht überlegen.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-3" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 912 Patienten, CHA₂DS₂-VASc 5,2, HAS-BLED 3,0, LAAO vs. beste medikamentöse Therapie, 3 Jahre (Deutschland).</p>
                 <p><strong class="text-ink">Ergebnis:</strong> 16,8 vs. 13,3 Ereignisse/100 Patientenjahre — Nicht-Unterlegenheitsgrenze nicht erreicht.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Konträr zu CHAMPION-AF; höheres Ausgangsrisiko und europäisches Kontrollregime könnten Unterschiede erklären. Die Leitliniendebatte wird sich erheblich verkomplizieren.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Konträr zu CHAMPION-AF; die Leitliniendebatte wird sich erheblich verkomplizieren.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 4 - SirPAD -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-4')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-4')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">NEJM</span>
               <span class="text-ink/40 font-sans text-xs">pAVK · Intervention</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">SirPAD: Sirolimus-Ballon überlegen bei peripherer Arterienerkrankung</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Sirolimus-beschichtete Ballonkatheter reduzierten schwere Extremitätenereignisse bei pAVK signifikant gegenüber unbeschichteten Ballons.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-4" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 1.252 Patienten, femoropopliteale/infrapopliteale pAVK, Sirolimus-Ballon vs. unbeschichteter Ballon, 1 Jahr Follow-up.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> MALE: 8,8 % vs. 15,0 % — sowohl Nicht-Unterlegenheit als auch Überlegenheit erreicht.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Weltweit größte RCT für Drug-Coated-Ballons bei pAVK; Sirolimus als sicherere Alternative zu Paclitaxel; zulassungsrelevante Daten erwartet.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">SirPAD: Sirolimus-Ballon überlegen bei peripherer Arterienerkrankung</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Sirolimus-beschichtete Ballonkatheter reduzierten schwere Extremitätenereignisse bei pAVK signifikant.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-4" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 1.252 Patienten, femoropopliteale/infrapopliteale pAVK, Sirolimus-Ballon vs. unbeschichteter Ballon, 1 Jahr.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> MALE: 8,8 % vs. 15,0 % — Überlegenheit erreicht.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Größte RCT für Drug-Coated-Ballons bei pAVK; Sirolimus als sicherere Alternative zu Paclitaxel.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 5 - VESALIUS-CV -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-5')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-5')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">NEJM</span>
               <span class="text-ink/40 font-sans text-xs">Prävention · Lipide</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">VESALIUS-CV: Evolocumab wirksam in der Hochrisiko-Primärprävention</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">PCSK9-Inhibition reduzierte MACE um 28 % bei Hochrisikopatienten ohne vorherigen Herzinfarkt oder Schlaganfall.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-5" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> ~12.000 Patienten mit hohem KV-Risiko ohne vorherigen MI/Schlaganfall, Evolocumab vs. Plazebo, medianes Follow-up ~4,8 Jahre.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> 4-Punkte-MACE: 7,6 % vs. 10,5 % (–28 %); Gesamtmortalität: 7,8 % vs. 10,1 %.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Erste Studie mit Evolocumab in der erweiterten Primärprävention; öffnet Tür für PCSK9-Inhibitoren jenseits der Sekundärprävention. Kosteneffektivitätsanalysen stehen aus.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">VESALIUS-CV: Evolocumab wirksam in der Hochrisiko-Primärprävention</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">PCSK9-Inhibition reduzierte MACE um 28 % bei Patienten ohne vorherigen Herzinfarkt oder Schlaganfall.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-5" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> ~12.000 Patienten ohne vorherigen MI/Schlaganfall, Evolocumab vs. Plazebo, ~4,8 Jahre Follow-up.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> MACE: 7,6 % vs. 10,5 % (–28 %); Gesamtmortalität: 7,8 % vs. 10,1 %.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Öffnet Tür für PCSK9-Inhibitoren in der erweiterten Primärprävention.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 6 - STEMI-DTU -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-6')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-red-50 text-red-500 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Negativstudie</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-6')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-red-50 text-red-500 text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">Negativstudie</span>
               <span class="text-ink/40 font-sans text-xs">Herzinfarkt</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">STEMI-DTU: Impella vor PCI ohne Nutzen — erhöhtes Blutungsrisiko</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Mechanische Kreislaufunterstützung mit Impella vor PCI beim nicht-schocktragenden anterioren STEMI reduziert die Infarktgröße nicht — erhöht aber das Komplikationsrisiko deutlich.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-6" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 527 Patienten, anteriorer STEMI ohne kardiogenen Schock, Impella CP + 30 min Verzögerung vor PCI vs. sofortige Standard-PCI, 55 Zentren.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Infarktgröße im MRT: 30,8 % vs. 31,9 % — kein Unterschied. Schwere Blutungs-/Gefäßkomplikationen: 34 % vs. 6 % (stark erhöht unter Impella).</p>
-                <p><strong class="text-ink">Relevanz:</strong> Klarer Negativbefund; die radiale PCI bleibt Standard of Care. Impella hat außerhalb des kardiogenen Schocks keine Indikation beim STEMI.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">STEMI-DTU: Impella vor PCI ohne Nutzen — erhöhtes Komplikationsrisiko</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Kein Vorteil bei der Infarktgröße, aber signifikant mehr Blutungs- und Gefäßkomplikationen unter Impella.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-6" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 527 Patienten, anteriorer STEMI ohne Schock, Impella CP + 30 min Verzögerung vs. sofortige PCI, 55 Zentren.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Infarktgröße: 30,8 % vs. 31,9 % — kein Unterschied. Blutungs-/Gefäßkomplikationen: 34 % vs. 6 %.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Radiale PCI bleibt Standard; Impella ohne Indikation beim nicht-schocktragenden STEMI.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 7 - SPIRIT-HF -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-7')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-red-50 text-red-500 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Negativstudie</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-7')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-red-50 text-red-500 text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">Negativstudie</span>
               <span class="text-ink/40 font-sans text-xs">Herzinsuffizienz</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">SPIRIT-HF: Spironolacton ohne signifikanten Nutzen bei HFpEF</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Trotz pharmakologischer Plausibilität zeigt Spironolacton bei HFpEF/HFmrEF keinen signifikanten Vorteil und ist mit mehr Nebenwirkungen verbunden.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-7" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-7" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 730 Patienten (78 Jahre, 50 % Frauen) mit HFpEF/HFmrEF, Spironolacton vs. Plazebo, 24 Monate, 4 europäische Länder.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Primärer Endpunkt: 10,8 vs. 12,7 Ereignisse/100 Patientenjahre — kein signifikanter Unterschied. Erhöhte Hyperkaliämie- und Nierenereignisrate unter Spironolacton.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Gepoolte Metaanalyse mit TOPCAT-Amerika bestätigt keinen Gesamtnutzen. Die Klasse-IIb-Empfehlung in den ESC-Leitlinien wird zur Diskussion stehen.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">SPIRIT-HF: Spironolacton ohne signifikanten Nutzen bei HFpEF</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Kein Gesamtnutzen und erhöhtes Nebenwirkungsprofil — die ESC-Leitlinienempfehlung gerät unter Druck.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-7" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-7" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 730 Patienten (78 J., 50 % Frauen) mit HFpEF/HFmrEF, Spironolacton vs. Plazebo, 24 Monate, Europa.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> 10,8 vs. 12,7 Ereignisse/100 Patientenjahre — kein signifikanter Unterschied. Mehr Hyperkaliämie und Nierenereignisse.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Gepoolte Metaanalyse mit TOPCAT bestätigt keinen Nutzen. Klasse-IIb-Empfehlung zur Diskussion.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 8 - CADENCE -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-8')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">Circulation</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-8')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">Circulation</span>
               <span class="text-ink/40 font-sans text-xs">Pulmonale Hypertonie</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">CADENCE: Sotatercept verbessert pulmonalen Widerstand bei HFpEF-assoziierter PH</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Erster Proof-of-Concept für eine gezielte Pharmakotherapie bei kombinierter post- und präkapillärer pulmonaler Hypertonie infolge HFpEF.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-8" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> Phase-2-RCT, 164 Patienten (75 Jahre, 70 % Frauen) mit HFpEF und schwerer CpcPH, Sotatercept 0,3 oder 0,7 mg/kg vs. Plazebo, 24 Wochen.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> PVR-Reduktion: –1,02 bzw. –0,75 Wood-Einheiten vs. Plazebo. Verbesserte Gehstrecke, RV-Funktion und klinische Verschlechterungsereignisse.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Erste gezielte Pharmakotherapie für CpcPH-HFpEF; Phase-3-Studie in Planung. Einschränkung: kurzes Follow-up, kleine Fallzahl.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">CADENCE: Sotatercept verbessert pulmonalen Widerstand bei HFpEF-PH</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Erster Proof-of-Concept für gezielte Pharmakotherapie bei kombinierter pulmonaler Hypertonie infolge HFpEF.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-8" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-8" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> Phase-2-RCT, 164 Patienten mit HFpEF und schwerer CpcPH, Sotatercept vs. Plazebo, 24 Wochen.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> PVR-Reduktion –1,02 bzw. –0,75 Wood-Einheiten vs. Plazebo; verbesserte Gehstrecke und RV-Funktion.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erste gezielte Therapie für CpcPH-HFpEF; Phase-3-Studie in Planung.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 9 - ORBITA-CTO -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-9')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">JACC</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-9')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">JACC</span>
               <span class="text-ink/40 font-sans text-xs">KHK · Intervention</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">ORBITA-CTO: CTO-PCI lindert Angina pectoris randomisiert nachgewiesen</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die erste sham-kontrollierte Studie zur CTO-PCI zeigt einen echten, wenn auch moderaten, symptomatischen Nutzen bei stabiler Angina.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-9" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-9" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> 50 Patienten mit Einzelgefäß-CTO und stabiler Angina, CTO-PCI vs. Scheineingriff (sham-kontrolliert), Imperial College London.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Angina-Score: OR 4,38 (95 %-KrI 1,57–12,69); 30,6 mehr angina-freie Tage unter CTO-PCI vs. Plazebo.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Erster randomisierter Nachweis eines echten Symptomnutzens durch CTO-PCI. Keine prognostischen Endpunkte; sehr kleine Fallzahl — kein Beleg für Mortalitätsreduktion.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">ORBITA-CTO: CTO-PCI lindert Angina pectoris randomisiert nachgewiesen</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Erste sham-kontrollierte Studie belegt echten, wenn auch moderaten Symptomnutzen bei chronischer Totalokklusion.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-9" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-9" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> 50 Patienten mit Einzelgefäß-CTO und stabiler Angina, CTO-PCI vs. Scheineingriff, Imperial College London.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Angina-Score: OR 4,38 (95 %-KrI 1,57–12,69); 30,6 mehr angina-freie Tage unter CTO-PCI.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Erster randomisierter Nachweis echten Symptomnutzens; keine prognostischen Endpunkte.</p>
               </div>
             </div>
           </div>
 
           <!-- Article 10 - LAAO + Ablation -->
-          <div class="border-r border-b border-ink/10 p-6 cursor-pointer group news-article" onclick="toggleNews('news-10')">
-            <div class="flex items-start gap-3 mb-3">
-              <span class="bg-ink/10 text-ink/60 text-xs font-sans font-semibold px-2 py-0.5 rounded uppercase tracking-wide flex-shrink-0">NEJM</span>
+          <div class="news-card rounded-xl p-6 cursor-pointer border border-ink/8" onclick="toggleNews('news-10')">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-brand/10 text-brand text-xs font-sans font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide">NEJM</span>
               <span class="text-ink/40 font-sans text-xs">Vorhofflimmern · Ablation</span>
             </div>
-            <h3 class="font-heading text-ink text-lg leading-tight mb-2 group-hover:text-brand transition-colors">Kombinierter LAAO + VHF-Ablation reduziert Schlaganfallrisiko</h3>
-            <p class="font-sans text-ink/60 text-sm leading-relaxed">Die simultane Vorhofohrverschluss-Implantation während VHF-Ablation war mit signifikant weniger Schlaganfällen verbunden als Ablation allein.</p>
-            <div class="flex items-center gap-2 mt-3 text-brand text-xs font-sans font-medium">
-              <span>Zusammenfassung lesen</span>
-              <svg class="w-4 h-4 transition-transform news-chevron" id="chevron-news-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-            </div>
-            <div id="news-10" class="hidden mt-4 pt-4 border-t border-ink/10">
-              <div class="space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
-                <p><strong class="text-ink">Methode:</strong> Patienten mit symptomatischem VHF, geplante Katheterablation, 1:1 kombinierter Eingriff (LAAO + Ablation) vs. Ablation allein.</p>
-                <p><strong class="text-ink">Ergebnis:</strong> Signifikante Reduktion von Schlaganfall und systemischer Embolie im kombinierten Arm bei vergleichbarer prozeduraler Sicherheit.</p>
-                <p><strong class="text-ink">Relevanz:</strong> Für Ablationspatienten mit hohem Blutungsrisiko könnte ein kombinierter Eingriff die lebenslange OAK ersetzen. Ergänzt die LAAO-Evidenz aus CHAMPION-AF und CLOSURE-AF.</p>
+            <h3 class="card-title font-heading text-ink text-lg leading-snug mb-2">Kombinierter LAAO + VHF-Ablation reduziert Schlaganfallrisiko</h3>
+            <p class="font-sans text-ink/55 text-sm leading-relaxed">Simultane LAAO-Implantation während Katheterablation war mit signifikant weniger Schlaganfällen verbunden.</p>
+            <button class="flex items-center gap-1.5 mt-4 text-brand text-xs font-sans font-semibold">
+              <span>Mehr lesen</span>
+              <svg class="read-more-arrow w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              <svg class="news-chevron-icon w-3.5 h-3.5" id="chevron-news-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div id="news-10" class="news-expand mt-3">
+              <div class="pt-3 border-t border-ink/10 space-y-2 font-sans text-sm text-ink/70 leading-relaxed">
+                <p><strong class="text-ink">Methode:</strong> Patienten mit symptomatischem VHF, geplante Ablation, 1:1 kombinierter Eingriff vs. Ablation allein.</p>
+                <p><strong class="text-ink">Ergebnis:</strong> Signifikante Reduktion von Schlaganfall/systemischer Embolie bei vergleichbarer prozeduraler Sicherheit.</p>
+                <p><strong class="text-ink">Relevanz:</strong> Für Ablationspatienten mit hohem Blutungsrisiko könnte ein kombinierter Eingriff die lebenslange OAK ersetzen.</p>
               </div>
             </div>
           </div>
 
         </div><!-- end grid -->
 
-        <p class="mt-6 text-center text-xs text-ink/30 font-sans">Die Zusammenfassungen basieren auf öffentlich zugänglichen Abstracts, Pressemitteilungen und Kongressberichten. Es werden keine Originaltexte der Verlage reproduziert.</p>
+        <p class="mt-8 text-center text-xs text-ink/30 font-sans">Die Zusammenfassungen basieren auf öffentlich zugänglichen Abstracts, Pressemitteilungen und Kongressberichten. Es werden keine Originaltexte der Verlage reproduziert.</p>
 
       </div>
     </section>
@@ -1256,13 +1347,9 @@
     function toggleNews(id) {
       const el = document.getElementById(id);
       const chevron = document.getElementById('chevron-' + id);
-      if (el.classList.contains('hidden')) {
-        el.classList.remove('hidden');
-        if (chevron) chevron.style.transform = 'rotate(180deg)';
-      } else {
-        el.classList.add('hidden');
-        if (chevron) chevron.style.transform = 'rotate(0deg)';
-      }
+      const isOpen = el.classList.contains('open');
+      el.classList.toggle('open', !isOpen);
+      if (chevron) chevron.classList.toggle('rotated', !isOpen);
     }
     </script>
 
